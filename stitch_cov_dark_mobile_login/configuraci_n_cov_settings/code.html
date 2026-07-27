@@ -1,0 +1,277 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>COV - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#c6c6c6",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-low": "#1c1b1b",
+                        "primary": "#c6c6c6",
+                        "on-tertiary-container": "#757575",
+                        "on-tertiary": "#303030",
+                        "on-secondary-fixed-variant": "#454747",
+                        "inverse-on-surface": "#313030",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353534",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-primary": "#303030",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary": "#2f3131",
+                        "secondary-container": "#454747",
+                        "on-primary-container": "#757575",
+                        "primary-container": "#000000",
+                        "on-primary-fixed": "#1b1b1b",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-error": "#690005",
+                        "secondary": "#c6c6c7",
+                        "on-surface-variant": "#cfc4c5",
+                        "on-secondary-container": "#b4b5b5",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-bright": "#393939",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "outline-variant": "#4c4546",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-fixed-variant": "#474747",
+                        "background": "#131313",
+                        "on-background": "#e5e2e1",
+                        "surface-variant": "#353534",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "inverse-primary": "#5e5e5e",
+                        "tertiary-container": "#000000",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-tint": "#c6c6c6",
+                        "error": "#ffb4ab",
+                        "outline": "#988e90",
+                        "tertiary-fixed": "#e2e2e2",
+                        "accent": "#FF7A8A"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "sm": "16px",
+                        "md": "24px",
+                        "base": "4px",
+                        "xl": "80px",
+                        "container-max": "1280px",
+                        "xs": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #FF7A8A;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #FF7A8A;
+        }
+        
+        /* Subtle mesh gradient background effect */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(255, 122, 138, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(198, 198, 198, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-24 md:pb-0 pt-16">
+<div class="mesh-bg"></div>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-md h-16 w-full z-50 fixed top-0 w-full bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(255,122,138,0.1)]">
+<div class="flex items-center gap-4 text-primary font-headline-md text-headline-md">
+<span class="material-symbols-outlined hover:opacity-80 transition-opacity active:scale-95 duration-200 cursor-pointer" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+<span class="font-headline-lg text-headline-lg tracking-tighter text-on-surface ml-2">COV</span>
+</div>
+<div class="flex items-center text-primary font-headline-md text-headline-md">
+<span class="material-symbols-outlined hover:opacity-80 transition-opacity active:scale-95 duration-200 cursor-pointer" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-sm md:px-xl py-lg">
+<div class="mb-lg">
+<h1 class="font-headline-xl text-headline-xl mb-xs">Settings</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your app preferences and account details.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Preferences Section -->
+<section class="md:col-span-8 lg:col-span-6 space-y-md mb-xl">
+<h2 class="font-headline-md text-headline-md text-primary border-b border-white/10 pb-xs">Preferences</h2>
+<div class="glass-panel rounded-xl p-md flex flex-col gap-md">
+<!-- Push Notifications -->
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-accent" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Push Notifications</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Receive alerts for important updates.</p>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-accent right-0 z-10 transition-all duration-300" id="toggle-notifications" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-accent cursor-pointer transition-colors duration-300" for="toggle-notifications"></label>
+</div>
+</div>
+<!-- Dark Mode -->
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">dark_mode</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Dark Mode</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Apperance is set to dark theme.</p>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-surface border-4 appearance-none cursor-not-allowed border-accent right-0 z-10 opacity-50" disabled="" id="toggle-darkmode" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-accent cursor-not-allowed opacity-50" for="toggle-darkmode"></label>
+</div>
+</div>
+<!-- Language Selector -->
+<div class="flex items-center justify-between group mt-sm pt-sm border-t border-white/5">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">language</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Language</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Select your preferred language.</p>
+</div>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-high border border-white/10 text-on-surface font-label-md text-label-md rounded-lg py-2 pl-4 pr-10 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors cursor-pointer">
+<option value="en">English (US)</option>
+<option value="es">Español</option>
+<option value="fr">Français</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Account Section -->
+<section class="md:col-span-8 lg:col-span-6 space-y-md">
+<h2 class="font-headline-md text-headline-md text-primary border-b border-white/10 pb-xs">Account</h2>
+<div class="glass-panel rounded-xl p-md flex flex-col gap-md">
+<!-- Security -->
+<a class="flex items-center justify-between group hover:bg-white/5 p-2 -m-2 rounded-lg transition-colors cursor-pointer" href="#">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary group-hover:text-accent transition-colors" style="font-variation-settings: 'FILL' 0;">lock</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Security</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Password, 2FA, Active Sessions.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">chevron_right</span>
+</a>
+<!-- Help & Support -->
+<a class="flex items-center justify-between group hover:bg-white/5 p-2 -m-2 rounded-lg transition-colors cursor-pointer" href="#">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary group-hover:text-accent transition-colors" style="font-variation-settings: 'FILL' 0;">help</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Help &amp; Support</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">FAQ, Contact us, Privacy Policy.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">chevron_right</span>
+</a>
+</div>
+<!-- Log Out Button -->
+<div class="pt-lg flex justify-end">
+<button class="bg-surface-container-high hover:bg-error/20 text-error border border-error/30 hover:border-error transition-all duration-300 rounded-lg px-xl py-3 font-label-md text-label-md flex items-center gap-2 active:scale-95 shadow-[0_0_15px_rgba(255,180,171,0.05)] hover:shadow-[0_0_20px_rgba(255,180,171,0.2)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+                        Log Out
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Hidden on md and up, acting as a sub-page here so technically we could suppress, but following instructions to show active state if present, though Settings implies a focus journey. We will show Profile as active since it relates to Account/Settings if forced, but the logic says suppress on sub-pages. The prompt implies this is a top level "Settings" destination if it's main nav, but typically it's under Profile. We'll render it with Profile active.) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center py-xs px-sm md:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_24px_rgba(0,0,0,0.5)] rounded-t-xl h-[72px]">
+<div class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-on-surface transition-colors active:scale-90 duration-200 cursor-pointer w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-on-surface transition-colors active:scale-90 duration-200 cursor-pointer w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+<span class="font-label-sm text-label-sm">Inventory</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-on-surface transition-colors active:scale-90 duration-200 cursor-pointer w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold bg-white/5 rounded-xl px-4 py-1 shadow-[inset_0_0_10px_rgba(255,122,138,0.2)] active:scale-90 duration-200 cursor-pointer w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-[10px]">Profile</span>
+</div>
+</nav>
+</body></html>

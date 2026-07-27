@@ -1,0 +1,361 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>COV - Inventory Catalog</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#131313",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-dim": "#131313",
+                        "on-primary": "#303030",
+                        "surface-container": "#201f1f",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "tertiary-container": "#000000",
+                        "on-tertiary": "#303030",
+                        "outline": "#988e90",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-secondary": "#2f3131",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#757575",
+                        "on-surface-variant": "#cfc4c5",
+                        "secondary": "#c6c6c7",
+                        "primary-container": "#000000",
+                        "primary": "#c6c6c6",
+                        "on-background": "#e5e2e1",
+                        "secondary-container": "#454747",
+                        "outline-variant": "#4c4546",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-fixed-variant": "#474747",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#353534",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-bright": "#393939",
+                        "inverse-on-surface": "#313030",
+                        "background": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-fixed": "#1b1b1b",
+                        "surface-tint": "#c6c6c6",
+                        "tertiary": "#c6c6c6",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface-variant": "#353534",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "on-primary-container": "#757575",
+                        "inverse-primary": "#5e5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "xs": "8px",
+                        "lg": "48px",
+                        "sm": "16px",
+                        "md": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; } /* Enforce pure black foundation */
+        
+        /* Glassmorphism Utilities relying on Tailwind Config Colors where possible */
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-input {
+            background-color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .glass-input:focus {
+            border-color: #ffb4ab; /* Using error color as salmon accent */
+            box-shadow: 0 0 0 1px rgba(255, 180, 171, 0.2) inset;
+            outline: none;
+        }
+
+        .glow-button {
+            position: relative;
+            background-color: #ffb4ab; /* Accent */
+            color: #131313; /* Dark text for contrast */
+            border: none;
+            overflow: hidden;
+        }
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .glow-button:hover::before {
+            opacity: 1;
+        }
+
+        /* Mesh gradient decorative background */
+        .ambient-glow {
+            position: fixed;
+            top: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255, 122, 138, 0.05) 0%, rgba(138, 43, 226, 0.02) 40%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(80px);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-background h-screen w-full flex overflow-hidden bg-black selection:bg-error selection:text-on-error">
+<div class="ambient-glow"></div>
+<!-- NavigationDrawer (Shared Component) -->
+<nav class="bg-surface-dim dark:bg-surface-dim text-secondary dark:text-secondary h-full w-80 rounded-r-xl fixed left-0 top-0 z-[100] flex flex-col shadow-xl transition-all duration-300 ease-in-out border-r border-white/5">
+<!-- Header Profile -->
+<div class="p-lg border-b border-white/5">
+<div class="flex items-center gap-sm mb-4">
+<img class="w-12 h-12 rounded-full object-cover border border-white/10 glass-panel" data-alt="A hyper-realistic, minimalist 3D rendering of an abstract user avatar sphere, constructed from frosted dark glass and glowing from within with a soft salmon-pink light. Set against a pure black void, emphasizing high-end corporate identity and modern software design aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5bsfWKUfNDLp7rW898VXqf2Qz7i5vLM3WZtR_3QRBG1pgVAhaGCUqrp1DozqT49Zcee7vDgNF79CM51ugDvLRLuLgLSpgE6TEmn35ItH_gjEH__hRog7yBenfzvj6c_AILGAjzpHHlH8bujWNfMpep2SZ_Pz_oDFHBRdT_S3YvL2QqyIrl9fXymWnUpjPc1cWmtXwWaMMp5jtZLRsXEIPFhKKl4lHngDmo7pY9vFQaTWMvOVDwDb7CNwx1O4VNWLih-V3n-XJee0">
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Store Admin</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">COV Enterprise</p>
+</div>
+</div>
+<div class="inline-block px-2 py-1 rounded bg-surface-container-highest text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold border border-white/5">
+                Premium Dark
+            </div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-md px-sm flex flex-col gap-2">
+<!-- Inactive -->
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-surface-variant m-2 p-3 hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">analytics</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<!-- Active (Inventory context) -->
+<a class="flex items-center gap-md bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container font-bold rounded-lg m-2 p-3 transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+<span class="font-label-md">Inventory</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-surface-variant m-2 p-3 hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">receipt_long</span>
+<span class="font-label-md">Sales History</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-surface-variant m-2 p-3 hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">bar_chart</span>
+<span class="font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-surface-variant m-2 p-3 hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded-lg transition-colors group mt-auto" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-80 z-10 relative">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-background dark:bg-background text-primary dark:text-primary full-width top-0 z-50 flex justify-between items-center px-md py-sm w-full transition-colors duration-200">
+<div class="flex items-center gap-sm">
+<!-- Leading Icon -->
+<button class="p-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container transition-colors text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand Headline -->
+<h1 class="text-headline-lg font-headline-lg font-bold tracking-tighter text-primary">COV</h1>
+</div>
+<!-- Trailing Icon -->
+<button class="p-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container transition-colors text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto p-xl scroll-smooth">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="text-headline-xl font-headline-xl text-on-surface mb-2">Inventory Catalog</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Manage and monitor hardware and software stock levels.</p>
+</div>
+<button class="glow-button font-label-md text-headline-sm px-gutter py-sm rounded-lg flex items-center gap-xs cursor-pointer shadow-[0_0_15px_rgba(255,180,171,0.2)]">
+<span class="material-symbols-outlined">add</span>
+                    Add New Product
+                </button>
+</div>
+<!-- Advanced Filters (Glassmorphic Bar) -->
+<div class="glass-panel rounded-xl p-md mb-lg flex flex-wrap items-center justify-between gap-md">
+<div class="flex items-center gap-md flex-1">
+<!-- Search -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="glass-input w-full rounded-lg py-sm pl-xl pr-sm text-on-surface font-body-md placeholder:text-on-surface-variant" placeholder="Search by SKU, Name, or Category..." type="text">
+</div>
+<!-- Category Dropdown -->
+<div class="relative">
+<select class="glass-input appearance-none rounded-lg py-sm pl-md pr-xl text-on-surface font-body-md cursor-pointer">
+<option value="all">All Categories</option>
+<option value="pos">POS Terminals</option>
+<option value="scanners">Barcode Scanners</option>
+<option value="licenses">Software Licenses</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+<!-- Type Toggle -->
+<div class="flex bg-surface-container-low rounded-lg p-1 border border-white/5">
+<button class="px-sm py-xs rounded-md bg-surface-bright text-on-surface font-label-md shadow-sm transition-all">All</button>
+<button class="px-sm py-xs rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-all">Hardware</button>
+<button class="px-sm py-xs rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-all">Software</button>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col group hover:border-error/30 transition-colors duration-300">
+<div class="h-48 relative bg-surface-container-lowest flex items-center justify-center p-sm">
+<!-- Image Container with placeholder -->
+<div class="w-full h-full rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 mix-blend-screen" data-alt="A sleek, high-end point-of-sale terminal unit viewed from an isometric angle on a pure black reflective surface. The device features sharp minimalist lines, a matte dark grey metallic finish, and subtle glowing salmon-colored LED accents. Dramatic studio lighting highlights the premium textures, fitting a modern dark mode software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR40s_bLDx7mySXnNgpfyI5vervR9qo2IEoioqetJHgMV8B9bNn3UfJbyNj1as2hsrxyzEUl7WdsnP1vwg2G7NyFCO_iTe3iVs5MROHv51N7-I3nud_bPJFM5bgScB00UmCoSMa7GDk7VK6VKbAho3k1PWoVXrGL1jdDD_GBHGGkCo27l3vL1Tl0MyQfwBphVvRdmCtaae1eJfYcG2sUNJsUFlhPT37oJBsQ8O_fUbXsSRwrYt4yF_cTFk8B9VoMG5AZj3qYR1C38">
+</div>
+<!-- Status Badge -->
+<div class="absolute top-sm right-sm bg-surface-bright/80 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-label-sm font-label-sm text-primary flex items-center gap-1 shadow-lg">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            Optimal Stock
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-1 border-t border-white/5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Nexus POS Terminal Elite</h3>
+<span class="text-headline-sm font-headline-sm text-error">$1,299</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant font-mono mb-4">SKU: HW-NEX-001</p>
+<div class="mt-auto flex justify-between items-center pt-4 border-t border-white/5">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Available</span>
+<span class="text-body-lg font-body-lg text-on-surface">244 Units</span>
+</div>
+<button class="text-error hover:text-white transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 (Low Stock) -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col group hover:border-error/30 transition-colors duration-300">
+<div class="h-48 relative bg-surface-container-lowest flex items-center justify-center p-sm">
+<div class="w-full h-full rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 mix-blend-screen" data-alt="A conceptual 3D render representing enterprise cloud software. Glowing, transparent glassmorphic cubes float in a deep black void, containing intricate digital circuits that emit a soft, vibrant purple and salmon-colored light. The composition is highly symmetrical, minimalist, and conveys high-performance computing within a premium dark aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxLT4zieOzi9GnAp18rn-JWTdSCIGqNSRD2g2jqr0RsJXBbKLRnf_Av_kRrrkAkdIq221KW4xaf21Qwa9hksqrL1ZkdgEQ-HaMcAG2uvamNfoaItACvIOb3XYBAZOiPQbneHhlBhXzTupV9rRqdATEiQS1y5UkisKWJfKSU4BTTDdDhBgv4hd2M_dZyCIsGanzQmpVKavJbqjy1WpSL9B8BPDALkv7Fy-yejEv6F_spVbMpvW4VDIcZXqPDmsWVHBMNZeQLYnWjFM">
+</div>
+<div class="absolute top-sm right-sm bg-error-container/80 backdrop-blur-md border border-error/20 px-2 py-1 rounded text-label-sm font-label-sm text-on-error-container flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                            Low Stock
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-1 border-t border-white/5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">COV Core License (Annual)</h3>
+<span class="text-headline-sm font-headline-sm text-error">$499</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant font-mono mb-4">SKU: SW-COR-ANN</p>
+<div class="mt-auto flex justify-between items-center pt-4 border-t border-white/5">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-error">Available</span>
+<span class="text-body-lg font-body-lg text-error">5 Keys</span>
+</div>
+<button class="text-error hover:text-white transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col group hover:border-error/30 transition-colors duration-300">
+<div class="h-48 relative bg-surface-container-lowest flex items-center justify-center p-sm">
+<div class="w-full h-full rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 mix-blend-screen" data-alt="A pair of highly advanced, wireless industrial barcode scanners resting on a dark carbon-fiber textured surface. The devices feature a stealthy matte black finish with sharp geometric edges and a distinct glowing magenta laser line emitting from the front sensor. The environment is dark, lit only by subtle edge lighting to accentuate the premium hardware design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxE_8VYAOyJNEijZs0CTDNNKcldHL3JnsUgI2I-ipj7ILttIXNvUHWfCGGz0RwWwKZPZfjUnxVSyoVdvKR2MUAFS4ebhYiytkiafeo0j_8UcugJ_s-mBbW30_LC8voGCDQq4nI5iPwV-S7SdkOgX_5KGHTu9OOUSNckFtA8BruV7xsLje-w2RF9a-nXK-7TkvA6q9ePWz07EUfc97VJb9ka53LT2y70y3a8xdh8vWq5nv8QSWTgWmvUQVNJoGfOntIgRHBZRVwI4k">
+</div>
+<div class="absolute top-sm right-sm bg-surface-bright/80 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-label-sm font-label-sm text-primary flex items-center gap-1 shadow-lg">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            Optimal Stock
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-1 border-t border-white/5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">OmniScan Pro X1</h3>
+<span class="text-headline-sm font-headline-sm text-error">$249</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant font-mono mb-4">SKU: HW-SCN-X1</p>
+<div class="mt-auto flex justify-between items-center pt-4 border-t border-white/5">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Available</span>
+<span class="text-body-lg font-body-lg text-on-surface">1,024 Units</span>
+</div>
+<button class="text-error hover:text-white transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom padding for scrollability -->
+<div class="h-xl"></div>
+</main>
+</div>
+</body></html>

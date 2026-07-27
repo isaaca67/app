@@ -1,0 +1,396 @@
+<!DOCTYPE html><html class="dark" lang="es" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Inventario - COV</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#c6c6c6",
+                      "tertiary-fixed-dim": "#c6c6c6",
+                      "tertiary-fixed": "#e2e2e2",
+                      "on-primary-container": "#757575",
+                      "on-surface-variant": "#cfc4c5",
+                      "on-primary": "#303030",
+                      "primary-fixed": "#e2e2e2",
+                      "inverse-on-surface": "#313030",
+                      "on-tertiary": "#303030",
+                      "surface-container-high": "#2a2a2a",
+                      "surface-container": "#201f1f",
+                      "on-surface": "#e5e2e1",
+                      "secondary": "#c6c6c7",
+                      "on-background": "#e5e2e1",
+                      "background": "#131313",
+                      "on-error": "#690005",
+                      "on-secondary": "#2f3131",
+                      "surface-container-low": "#1c1b1b",
+                      "error-container": "#93000a",
+                      "primary": "#c6c6c6",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary-container": "#757575",
+                      "surface-bright": "#393939",
+                      "surface-container-highest": "#353534",
+                      "outline-variant": "#4c4546",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-primary-fixed-variant": "#474747",
+                      "on-secondary-container": "#b4b5b5",
+                      "surface-container-lowest": "#0e0e0e",
+                      "tertiary": "#c6c6c6",
+                      "inverse-primary": "#5e5e5e",
+                      "surface-dim": "#131313",
+                      "secondary-container": "#454747",
+                      "primary-container": "#000000",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "primary-fixed-dim": "#c6c6c6",
+                      "surface": "#131313",
+                      "secondary-fixed": "#e2e2e2",
+                      "outline": "#988e90",
+                      "surface-variant": "#353534",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "tertiary-container": "#000000",
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#1b1b1b",
+                      "on-primary-fixed": "#1b1b1b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "md": "24px",
+                      "container-max": "1280px",
+                      "lg": "48px",
+                      "sm": "16px",
+                      "xs": "8px",
+                      "xl": "80px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-xl": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        /* Glassmorphism utility classes */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-input {
+            background: rgba(0, 0, 0, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-input:focus {
+            border-color: #FF7A8A;
+            outline: none;
+            box-shadow: 0 0 0 1px #FF7A8A;
+        }
+        .btn-primary {
+            background-color: #FF7A8A;
+            color: #ffffff;
+            transition: all 0.2s ease-in-out;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        .btn-primary:hover {
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4), 0 0 15px rgba(255, 122, 138, 0.4);
+        }
+        .chip-active {
+            background-color: rgba(255, 122, 138, 0.15);
+            color: #FF7A8A;
+            border: 1px solid rgba(255, 122, 138, 0.3);
+        }
+        .chip-inactive {
+            background-color: rgba(147, 112, 219, 0.15);
+            color: #9370DB;
+            border: 1px solid rgba(147, 112, 219, 0.3);
+        }
+        
+        /* Subtle mesh gradient background */
+        body {
+            background-color: #000000;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 122, 138, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(147, 112, 219, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #e5e2e1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen font-body-md text-body-md pt-16 pb-24 md:pb-0 mesh-gradient">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-white/10">
+<div class="flex items-center gap-4">
+
+<h1 class="font-headline-lg text-headline-lg font-black tracking-tighter text-primary dark:text-primary">COV</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-primary dark:text-primary" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-container-max mx-auto px-4 md:px-gutter pt-8">
+<!-- Search and Filters Section -->
+<section class="mb-lg">
+<div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center mb-6">
+<div class="w-full md:w-96 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="glass-input w-full pl-12 pr-4 py-3 rounded-lg text-on-surface font-body-md placeholder:text-on-surface-variant transition-colors" placeholder="Buscar productos, SKU..." type="text">
+</div>
+</div>
+<!-- Horizontal Category Filters -->
+<div class="flex overflow-x-auto pb-4 gap-3 hide-scrollbar">
+<button class="px-6 py-2 rounded-full glass-card border-primary/50 text-primary font-label-md whitespace-nowrap bg-white/10">Todos</button>
+<button class="px-6 py-2 rounded-full glass-card hover:bg-white/5 text-on-surface-variant font-label-md whitespace-nowrap transition-colors">Hardware</button>
+<button class="px-6 py-2 rounded-full glass-card hover:bg-white/5 text-on-surface-variant font-label-md whitespace-nowrap transition-colors">Software</button>
+<button class="px-6 py-2 rounded-full glass-card hover:bg-white/5 text-on-surface-variant font-label-md whitespace-nowrap transition-colors">Accesorios</button>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<article class="glass-card rounded-xl overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="h-48 relative overflow-hidden bg-black/50">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="High quality product photography of a sleek, modern server rack component on a dark background with dramatic studio lighting, neon magenta accents, reflecting a premium tech environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCuYXElvPgAoFIQinVDH7Ho6x_5RS1MaZkE5_A5qT7BcPcKqcF9Nc93kp3xzQoXIkyNdsRX87GocNd2s4_WYya17SJRylNaiogarx-0_xdlCPK1xncC9zW2jOdschUpVLGBrvENk4ICpkzQj7fN0Gq8M1o9h1I7ooAZFKap5ZZ1WdXhtAz7TQC5b51TeP4pmLyAFViRnEPoj-_US7rbFTpkcgD1teNqaWyKbLKkdEadqOS2CLhh9dttVsySZE8s6vWGs2SAZXEipYA')"></div>
+<div class="absolute top-3 right-3 chip-active px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">
+                        Stock Óptimo (45)
+                    </div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div>
+<p class="font-label-sm text-on-surface-variant mb-1">SKU: HW-SRV-001</p>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Servidor Nexus X9</h2>
+</div>
+<div class="flex justify-between items-end mt-auto pt-4 border-t border-white/5">
+<span class="font-headline-md text-headline-md font-bold text-primary">$4,250.00</span>
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article class="glass-card rounded-xl overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="h-48 relative overflow-hidden bg-black/50">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="High quality product photography of a premium mechanical keyboard with dark keycaps and subtle RGB lighting, isolated on a pure black background, reflecting a high-end tech aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKxOMDmqBJwP3WRCyxeA3lz7NvQmbl8XWS4qp25IsXavtW6uRkcBG7yw9s11HkPcVZ9ROv0iobVU_hDQwxJUEgzUyRblyN__VX-p8PrfmkIVT3IF2iQLDb_MxV_11mJPlCDVAdHUyFK68TlZyRx22oN5jtmsHFTQn7irnxK9XP9LOApQ2jLNECtTfd6SqzhzZ58PF-HWB8DZm-F6GGr3JeEwfp39Y5OcKx9Q63rvbtFb-jw9dZXV2v86-HMMrSXA29MmX4KMfm8us')"></div>
+<div class="absolute top-3 right-3 chip-inactive px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">
+                        Stock Bajo (3)
+                    </div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div>
+<p class="font-label-sm text-on-surface-variant mb-1">SKU: ACC-KB-042</p>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Teclado Mecánico Pro</h2>
+</div>
+<div class="flex justify-between items-end mt-auto pt-4 border-t border-white/5">
+<span class="font-headline-md text-headline-md font-bold text-primary">$189.99</span>
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article class="glass-card rounded-xl overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="h-48 relative overflow-hidden bg-black/50 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white/10">memory</span>
+<div class="absolute top-3 right-3 chip-active px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">
+                        Stock Óptimo (120)
+                    </div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div>
+<p class="font-label-sm text-on-surface-variant mb-1">SKU: SW-LIC-100</p>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Licencia Enterprise</h2>
+</div>
+<div class="flex justify-between items-end mt-auto pt-4 border-t border-white/5">
+<span class="font-headline-md text-headline-md font-bold text-primary">$899.00</span>
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Product Card 4 -->
+<article class="glass-card rounded-xl overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="h-48 relative overflow-hidden bg-black/50">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="High quality product photography of a sleek wireless mouse on a dark premium surface, dramatic lighting highlighting the curves, deep blacks and metallic accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCy-849QyFnDhR4wk-rinzTEDegBvMeeforHteJFv7s90EEs-iQc9kYtQMsEBs4h74yqynvlc37JlXsOcQGNU3SnwIzRNay7WCuHLq0vPtbyBDjTrTM_avdFzuaBL-eB13GlIbwOzti2CZAKJ6svegjwBKwHZE6ll-JcopO6wQhC-tVzqHa8SIoAFizMtgQ4szHim0GyO95EVy8n3Y_CLsZvHz_aTrNkkL_vHE014YhZLPh1Tzz2HTvl_ejaRWcEbr6NploMTmkBd8')"></div>
+<div class="absolute top-3 right-3 chip-active px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">
+                        Stock Óptimo (58)
+                    </div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div>
+<p class="font-label-sm text-on-surface-variant mb-1">SKU: ACC-MS-011</p>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Mouse Ergonómico X1</h2>
+</div>
+<div class="flex justify-between items-end mt-auto pt-4 border-t border-white/5">
+<span class="font-headline-md text-headline-md font-bold text-primary">$125.50</span>
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- FAB -->
+<button aria-label="Añadir Producto" class="fixed bottom-24 md:bottom-8 right-4 md:right-8 w-14 h-14 rounded-full btn-primary flex items-center justify-center z-40 group">
+<span class="material-symbols-outlined group-hover:rotate-90 transition-transform duration-300">add</span>
+</button>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-4 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-t border-white/10">
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary/80 transition-colors w-16" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Active -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary font-bold scale-110 transition-transform duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-sm text-label-sm">Inventory</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary/80 transition-colors w-16" href="#">
+<span class="material-symbols-outlined mb-1">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary/80 transition-colors w-16" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Global Desktop Navigation (Hidden on Mobile) -->
+<nav class="hidden md:flex fixed top-0 right-gutter h-16 items-center gap-8 z-50">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Home</a>
+<a class="text-primary font-bold font-label-md" href="#">Inventory</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Sales</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Profile</a>
+</nav>
+<style>
+        /* Hide scrollbar for category filters */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+
+</body></html>

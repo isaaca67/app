@@ -1,0 +1,268 @@
+<!DOCTYPE html><html class="dark" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>COV - Escanear Producto</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#000000",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-background": "#e5e2e1",
+                        "tertiary-fixed": "#e2e2e2",
+                        "error-container": "#93000a",
+                        "surface-variant": "#353534",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "outline": "#988e90",
+                        "on-tertiary-container": "#757575",
+                        "outline-variant": "#4c4546",
+                        "tertiary-container": "#000000",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-bright": "#393939",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary": "#303030",
+                        "surface-dim": "#131313",
+                        "inverse-primary": "#5e5e5e",
+                        "surface": "#131313",
+                        "background": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#757575",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-surface": "#e5e2e1",
+                        "primary": "#c6c6c6",
+                        "secondary": "#c6c6c7",
+                        "on-primary-fixed": "#1b1b1b",
+                        "inverse-on-surface": "#313030",
+                        "secondary-container": "#454747",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "surface-container-high": "#2a2a2a",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#353534",
+                        "on-surface-variant": "#cfc4c5",
+                        "on-primary": "#303030",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary": "#c6c6c6",
+                        "on-primary-fixed-variant": "#474747",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#2f3131",
+                        "surface-tint": "#c6c6c6",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-container-lowest": "#0e0e0e",
+                        "brand-accent": "#FF7A8A" // Custom accent color based on guidelines
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "base": "4px",
+                        "container-max": "1280px",
+                        "lg": "48px",
+                        "sm": "16px",
+                        "gutter": "24px",
+                        "xs": "8px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>body {
+    background-color: #000;
+    color: #e5e2e1;
+    overscroll-behavior: none
+    }
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1)
+    }
+.glass-panel-elevated {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 122, 138, 0.05)
+    }
+.scanner-frame {
+    position: relative;
+    width: 250px;
+    height: 250px
+    }
+.scanner-frame::before, .scanner-frame::after {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: #FF7A8A;
+    border-style: solid
+    }
+.scanner-frame::before {
+    top: 0;
+    left: 0;
+    border-width: 3px 0 0 3px;
+    border-top-left-radius: 12px
+    }
+.scanner-frame::after {
+    bottom: 0;
+    right: 0;
+    border-width: 0 3px 3px 0;
+    border-bottom-right-radius: 12px
+    }
+.scanner-frame-tr {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-color: #FF7A8A;
+    border-style: solid;
+    border-width: 3px 3px 0 0;
+    border-top-right-radius: 12px
+    }
+.scanner-frame-bl {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-color: #FF7A8A;
+    border-style: solid;
+    border-width: 0 0 3px 3px;
+    border-bottom-left-radius: 12px
+    }
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #FF7A8A;
+    box-shadow: 0 0 8px 2px rgba(255, 122, 138, 0.6);
+    top: 0;
+    left: 0;
+    animation: scan 2.5s infinite linear
+    }
+@keyframes scan {
+    0% {
+        top: 0%;
+        opacity: 0;
+        } 10% {
+        opacity: 1;
+        } 90% {
+        opacity: 1;
+        } 100% {
+        top: 100%;
+        opacity: 0;
+        }
+    }
+/* Camera feed simulation */
+.camera-feed {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCkpmz_iKVleWGCpdCHNPNAqfOzTi1BtWzqgEm7jIIiUOzruh_haBXO6yn2hGnQ46ljwkNWx4SURWiMLGatr5I_GSVAv7LyaJPT5nPGtP1fCBUPqBF5eH7-kkUPoUta2r5iBu-lBHU-b7-dl-nCVWp79jE_53AjhOdcJF187A4A0QrD94-0LlRJfYeej6BlGR65v4SLqlFZmftTr8AYDvIN9qhf3Vi1_eez-P3apfrrmpK2wEk5lydwt6WMGAS1Gc8FPCooICDOm-g);
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6) contrast(1.2)
+    }
+.glow-button {
+    transition: all 0.2s ease
+    }
+.glow-button:active {
+    box-shadow: inset 0 0 15px rgba(255, 122, 138, 0.4);
+    transform: scale(0.95)
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-screen w-screen overflow-hidden relative">
+<!-- Simulated Camera Feed Background -->
+<div class="absolute inset-0 camera-feed w-full h-full" data-alt="A subjective POV shot of a modern, sleek industrial warehouse rack filled with minimalist black tech boxes. The lighting is moody and cinematic, simulating a high-end smartphone camera interface in dark mode. Soft focus on the background to emphasize the scanning UI that will sit on top. Premium aesthetic, deep blacks, subtle metallic reflections." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQ2M5xMV2yntiiDI6I-MnBl8wd_cAHvzztRd7C-KlssSK8Jn-tx6i4C37d7OTuvIWDsUEeL7hx1JFUnKr9jJDVoWbVNSVw8a77lau8q9fL6DxEvQylTqhLXm3odKPf0eA91Z-hNhE1hKslqOeI1ZBWWnbMLqzr5QC97lOaRaF8zSMNBgltHNcPMNGVyokn7pW3uwkfEwLaL47vhUl8FGAXX5diDpAlBh8XC-SQYFiHf7oDAV94_1FdmRw-F9r8RJICY0XE2YjLA7A')"></div>
+<!-- Overlay to darken background slightly for contrast -->
+<div class="absolute inset-0 bg-black/40"></div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 px-md py-sm flex justify-between items-center glass-panel border-b-0 border-t-0 shadow-none">
+<button class="w-10 h-10 flex items-center justify-center rounded-full glass-panel hover:bg-white/5 active:scale-95 transition-all text-on-surface">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Escanear</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full glass-panel hover:bg-white/5 active:scale-95 transition-all text-on-surface">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">history</span>
+</button>
+</header>
+<!-- Main Scanner Area -->
+<main class="absolute inset-0 flex flex-col items-center justify-center pt-16 pb-32">
+<!-- Context Text -->
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 text-center max-w-xs drop-shadow-md">
+            Alinee el código de barras o QR dentro del marco
+        </p>
+<!-- Scanner Reticle -->
+<div class="scanner-frame mb-12">
+<div class="scanner-frame-tr"></div>
+<div class="scanner-frame-bl"></div>
+<div class="scan-line"></div>
+</div>
+<!-- Detected Product Toast (Simulated State) -->
+<div class="absolute bottom-40 w-[90%] max-w-md glass-panel-elevated rounded-xl p-sm flex items-center gap-sm transform translate-y-0 opacity-100 transition-all duration-300">
+<div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center overflow-hidden shrink-0 border border-white/10">
+<span class="material-symbols-outlined text-brand-accent">memory</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-label-md text-label-md text-on-surface truncate">Procesador X9-Series Ultra</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Stock: 14 u. | <span class="text-brand-accent">$450.00</span></p>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-brand-accent/20 text-brand-accent hover:bg-brand-accent/30 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</div>
+</main>
+<!-- Bottom Action Controls -->
+<div class="absolute bottom-0 w-full px-md pb-safe mb-md flex justify-around items-center z-40 gap-sm">
+<!-- Flashlight Toggle -->
+<button class="flex-1 h-14 rounded-xl glass-panel flex items-center justify-center gap-2 text-on-surface font-label-md text-label-md glow-button">
+<span class="material-symbols-outlined">flashlight_on</span>
+            Linterna
+        </button>
+<!-- Manual Entry -->
+<button class="flex-1 h-14 rounded-xl glass-panel flex items-center justify-center gap-2 text-on-surface font-label-md text-label-md glow-button">
+<span class="material-symbols-outlined">keyboard</span>
+            Manual
+        </button>
+</div>
+</body></html>

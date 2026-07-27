@@ -1,0 +1,257 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>COV - Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "error-container": "#93000a",
+                        "surface-bright": "#393939",
+                        "outline": "#988e90",
+                        "primary-container": "#000000",
+                        "surface": "#131313",
+                        "primary-fixed": "#e2e2e2",
+                        "on-secondary": "#2f3131",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container": "#201f1f",
+                        "on-error": "#690005",
+                        "on-primary": "#303030",
+                        "secondary-container": "#454747",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface-container-low": "#1c1b1b",
+                        "background": "#131313",
+                        "on-primary-container": "#757575",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "secondary": "#c6c6c7",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "tertiary": "#c6c6c6",
+                        "surface-dim": "#131313",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-tertiary-container": "#757575",
+                        "inverse-primary": "#5e5e5e",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary": "#c6c6c6",
+                        "on-surface-variant": "#cfc4c5",
+                        "surface-tint": "#c6c6c6",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary": "#303030",
+                        "on-error-container": "#ffdad6",
+                        "outline-variant": "#4c4546",
+                        "surface-variant": "#353534",
+                        "on-background": "#e5e2e1",
+                        "tertiary-container": "#000000",
+                        "surface-container-highest": "#353534"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "lg": "48px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "sm": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000; /* Pure black foundation */
+            color: #e5e2e1;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 122, 138, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(198, 198, 198, 0.03), transparent 25%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .notification-unread {
+            background: rgba(255, 122, 138, 0.05);
+            border-left: 2px solid #FF7A8A;
+        }
+
+        .icon-stock { color: #FF7A8A; }
+        .icon-sale { color: #c6c6c6; }
+        .icon-system { color: #988e90; }
+        
+        .accent-salmon { color: #FF7A8A; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased selection:bg-surface-variant selection:text-on-surface pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-white/10">
+<div class="flex items-center justify-between px-md h-16 w-full max-w-container-max mx-auto">
+<button aria-label="Menu" class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-on-background dark:text-on-background">COV</h1>
+<button aria-label="Notifications" class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-sm md:px-gutter max-w-[800px] mx-auto w-full">
+<!-- Header & Actions -->
+<div class="flex items-center justify-between mb-lg">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-base">Notifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Stay updated on your operations.</p>
+</div>
+<button class="flex items-center gap-2 glass-panel px-sm py-xs rounded-full font-label-md text-label-md text-on-surface hover:bg-white/5 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span class="hidden sm:inline">Mark all as read</span>
+</button>
+</div>
+<!-- Today Section -->
+<section class="mb-xl">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm">Today</h3>
+<div class="flex flex-col gap-sm">
+<!-- Notification 1: Stock Alert (Unread) -->
+<div class="glass-panel rounded-lg p-sm md:p-md flex items-start gap-md notification-unread transition-all hover:bg-white/5 cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined icon-stock" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-base">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Low Stock Alert</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">10:42 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xs">Item 'Titanium Alloy Frame' is running low. Only 5 units remaining in Warehouse A.</p>
+<div class="flex gap-sm mt-sm">
+<button class="font-label-sm text-label-sm accent-salmon hover:underline">Restock Now</button>
+</div>
+</div>
+<div class="w-2 h-2 rounded-full bg-[#FF7A8A] shrink-0 mt-2"></div>
+</div>
+<!-- Notification 2: New Sale -->
+<div class="glass-panel rounded-lg p-sm md:p-md flex items-start gap-md transition-all hover:bg-white/5 cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined icon-sale" style="font-variation-settings: 'FILL' 0;">payments</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-base">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">New Sale Confirmed</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">08:15 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Order #TX-9021 confirmed for $4,250.00. Payment processed successfully via Stripe.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Earlier Section -->
+<section>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm">Earlier</h3>
+<div class="flex flex-col gap-sm">
+<!-- Notification 3: System Update -->
+<div class="glass-panel rounded-lg p-sm md:p-md flex items-start gap-md transition-all hover:bg-white/5 cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined icon-system" style="font-variation-settings: 'FILL' 0;">update</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-base">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">System Update Complete</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">v2.4 deployed successfully. Includes new analytics dashboard and improved sync speeds.</p>
+</div>
+</div>
+<!-- Notification 4: Stock Alert -->
+<div class="glass-panel rounded-lg p-sm md:p-md flex items-start gap-md transition-all hover:bg-white/5 cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined icon-stock" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-base">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Stock Replenished</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Oct 12</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Shipment received. 50 units of 'Carbon Fiber Panels' added to inventory.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only based on Shell Logic, but since this is a top-level dest, render it on mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-background/80 dark:bg-background/80 backdrop-blur-24 border-t border-white/5 shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
+<div class="flex justify-around items-center h-20 w-full px-sm pb-safe">
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+<span class="font-label-sm text-label-sm">Inventory</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</div>
+</nav>
+</body></html>

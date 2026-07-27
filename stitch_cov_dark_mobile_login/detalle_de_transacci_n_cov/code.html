@@ -1,0 +1,219 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Transaction Detail - COV</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "outline": "#988e90",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-surface-variant": "#cfc4c5",
+                        "on-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary": "#c6c6c7",
+                        "on-tertiary": "#303030",
+                        "primary": "#FF7A8A",
+                        "surface-variant": "#353534",
+                        "on-secondary-container": "#b4b5b5",
+                        "background": "#000000",
+                        "on-primary-fixed-variant": "#474747",
+                        "on-background": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "primary-container": "#000000",
+                        "error-container": "#93000a",
+                        "secondary-container": "#454747",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-tertiary-container": "#757575",
+                        "tertiary": "#c6c6c6",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-primary-container": "#757575",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-bright": "#393939",
+                        "tertiary-container": "#000000",
+                        "surface-container": "#201f1f",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-highest": "#353534",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary": "#FFFFFF",
+                        "surface-dim": "#131313",
+                        "outline-variant": "#4c4546",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-secondary": "#2f3131",
+                        "surface-tint": "#c6c6c6",
+                        "inverse-primary": "#5e5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "8px",
+                        "base": "4px",
+                        "gutter": "24px",
+                        "xl": "80px",
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "sm": "16px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e5e2e1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 15% 50%, rgba(255, 122, 138, 0.15), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(156, 39, 176, 0.15), transparent 25%);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col pt-16 pb-20 md:pb-0">
+<div class="mesh-bg"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/30 backdrop-blur-xl border-b border-white/10 shadow-none">
+<div class="flex justify-between items-center px-gutter h-16">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface-variant">arrow_back</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter">COV</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-sm md:px-gutter py-md">
+<div class="flex flex-col items-center mb-lg">
+<div class="glass-card rounded-full p-4 mb-4">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Transaction Successful</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">#TRX-892A-4B</p>
+</div>
+<div class="glass-card rounded-xl p-md mb-md">
+<div class="grid grid-cols-2 gap-sm mb-md pb-md border-b border-white/10">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Date &amp; Time</p>
+<p class="font-body-md text-body-md text-on-surface">Oct 24, 2023, 14:32</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Client Name</p>
+<p class="font-body-md text-body-md text-on-surface">Acme Corp</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Payment Method</p>
+<p class="font-body-md text-body-md text-on-surface">Wire Transfer</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Operator</p>
+<p class="font-body-md text-body-md text-on-surface">J. Smith</p>
+</div>
+</div>
+<div class="mb-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-sm">Items</h3>
+<div class="flex justify-between items-center mb-sm">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Enterprise License</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Qty: 1</p>
+</div>
+<p class="font-body-md text-body-md text-on-surface">$2,500.00</p>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="font-body-md text-body-md text-on-surface">IA Module</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Qty: 1</p>
+</div>
+<p class="font-body-md text-body-md text-on-surface">$900.00</p>
+</div>
+</div>
+<div class="pt-md border-t border-white/10 space-y-sm">
+<div class="flex justify-between items-center">
+<p class="font-body-md text-body-md text-on-surface-variant">Subtotal</p>
+<p class="font-body-md text-body-md text-on-surface-variant">$3,400.00</p>
+</div>
+<div class="flex justify-between items-center">
+<p class="font-body-md text-body-md text-on-surface-variant">Taxes (16%)</p>
+<p class="font-body-md text-body-md text-on-surface-variant">$544.00</p>
+</div>
+<div class="flex justify-between items-center pt-2">
+<p class="font-headline-md text-headline-md text-on-surface">Total</p>
+<p class="font-headline-md text-headline-md text-primary">$3,944.00</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-sm">
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">print</span> Print Receipt
+            </button>
+<button class="flex-1 glass-card text-on-surface font-label-md text-label-md py-3 rounded-lg hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">share</span> Share
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Hidden on Desktop, Visible on Mobile since this isn't a top-level dest, but instructions said to include shared nav. Suppressing per Semantic Shell Mandate as it's a detail screen with back button) -->
+<!-- Suppressed: This is a transaction detail screen, a focused task with a back action. -->
+</body></html>

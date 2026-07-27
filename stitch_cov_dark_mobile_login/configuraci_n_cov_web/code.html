@@ -1,0 +1,477 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>COV Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#c6c6c6",
+                      "on-secondary-container": "#b4b5b5",
+                      "on-tertiary-fixed": "#1b1b1b",
+                      "primary-fixed-dim": "#c6c6c6",
+                      "on-secondary-fixed-variant": "#454747",
+                      "inverse-on-surface": "#313030",
+                      "secondary-container": "#454747",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#303030",
+                      "on-tertiary-container": "#757575",
+                      "outline-variant": "#4c4546",
+                      "on-primary-container": "#757575",
+                      "secondary-fixed": "#e2e2e2",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "on-primary-fixed-variant": "#474747",
+                      "surface-bright": "#393939",
+                      "surface": "#131313",
+                      "background": "#131313",
+                      "surface-container-low": "#1c1b1b",
+                      "primary-fixed": "#e2e2e2",
+                      "tertiary-container": "#000000",
+                      "surface-container-highest": "#353534",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "surface-variant": "#353534",
+                      "surface-container": "#201f1f",
+                      "inverse-surface": "#e5e2e1",
+                      "on-primary-fixed": "#1b1b1b",
+                      "error-container": "#93000a",
+                      "tertiary-fixed": "#e2e2e2",
+                      "secondary": "#c6c6c7",
+                      "inverse-primary": "#5e5e5e",
+                      "on-error-container": "#ffdad6",
+                      "outline": "#988e90",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "surface-container-high": "#2a2a2a",
+                      "on-primary": "#303030",
+                      "on-error": "#690005",
+                      "tertiary-fixed-dim": "#c6c6c6",
+                      "tertiary": "#c6c6c6",
+                      "on-surface-variant": "#cfc4c5",
+                      "primary-container": "#000000",
+                      "primary": "#c6c6c6",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-background": "#e5e2e1",
+                      "on-secondary": "#2f3131",
+                      "surface-dim": "#131313",
+                      "on-surface": "#e5e2e1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "sm": "16px",
+                      "xl": "80px",
+                      "md": "24px",
+                      "container-max": "1280px",
+                      "xs": "8px",
+                      "lg": "48px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-xl": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e5e2e1;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-glass {
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e5e2e1;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-glass:focus {
+            border-color: #FF7A8A;
+            box-shadow: 0 0 0 1px #FF7A8A;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: #FF7A8A;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 122, 138, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e5e2e1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-switch {
+            appearance: none;
+            width: 40px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #e5e2e1;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch:checked {
+            background: #FF7A8A;
+            border-color: #FF7A8A;
+        }
+
+        .toggle-switch:checked::before {
+            transform: translateX(16px);
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body class="font-body-md min-h-screen flex selection:bg-[#FF7A8A] selection:text-white">
+<!-- TopNavBar (Settings/Configuration implies a focused state, but it sits within the app. Suppressing TopNav for deep settings focus, but keeping SideNav) -->
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col py-lg px-sm gap-xs bg-surface dark:bg-surface fixed left-0 top-0 h-full w-64 z-50 border-r border-white/5 shadow-xl transition-all duration-300">
+<div class="mb-lg px-sm flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">dataset</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-extrabold text-on-surface tracking-tight">COV</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Enterprise Ops</p>
+</div>
+</div>
+<button class="mb-md mx-sm py-sm rounded-lg btn-primary font-label-md text-label-md flex justify-center items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            New Operation
+        </button>
+<div class="flex-1 flex flex-col gap-base overflow-y-auto">
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg bg-white/5 text-primary border-r-4 border-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">settings_applications</span>
+<span class="font-label-md text-label-md">Operations</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">payments</span>
+<span class="font-label-md text-label-md">Sales</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">insights</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">inventory_2</span>
+<span class="font-label-md text-label-md">Resources</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">description</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-base pt-md border-t border-white/5">
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:backdrop-blur-md transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-64 pb-32">
+<div class="max-w-container-max mx-auto px-sm md:px-xl py-lg md:py-xl">
+<header class="mb-lg">
+<h2 class="font-headline-xl text-headline-xl font-bold text-on-surface tracking-tight mb-xs">Configuration</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Manage your enterprise operations settings, security preferences, and team access levels.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Settings Navigation (Left Column) -->
+<div class="lg:col-span-3 flex flex-col gap-xs">
+<button class="flex items-center gap-sm px-md py-sm rounded-lg bg-white/10 text-on-surface border border-white/10 transition-all font-label-md text-label-md w-full text-left">
+<span class="material-symbols-outlined text-[20px] text-[#FF7A8A]" style="font-variation-settings: 'FILL' 1;">tune</span>
+                        General Settings
+                    </button>
+<button class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all font-label-md text-label-md w-full text-left">
+<span class="material-symbols-outlined text-[20px]">security</span>
+                        Security &amp; Access
+                    </button>
+<button class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all font-label-md text-label-md w-full text-left">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+                        Notifications
+                    </button>
+<button class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all font-label-md text-label-md w-full text-left">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+                        Billing &amp; Quotas
+                    </button>
+<button class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all font-label-md text-label-md w-full text-left">
+<span class="material-symbols-outlined text-[20px]">group</span>
+                        Team Management
+                    </button>
+</div>
+<!-- Settings Content (Right Column) -->
+<div class="lg:col-span-9 flex flex-col gap-md">
+<!-- Section: Workspace Profile -->
+<div class="glass-panel rounded-xl p-md md:p-lg">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface mb-md">Workspace Profile</h3>
+<div class="flex flex-col md:flex-row gap-lg items-start">
+<div class="shrink-0 flex flex-col items-center gap-sm">
+<div class="w-24 h-24 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center overflow-hidden relative group cursor-pointer">
+<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
+<span class="material-symbols-outlined text-white">upload</span>
+</div>
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface-variant">COV</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Workspace Logo</span>
+</div>
+<div class="flex-1 grid grid-cols-1 gap-md w-full">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Workspace Name</label>
+<input class="input-glass rounded-lg px-sm py-sm font-body-md w-full" type="text" value="COV Enterprise Ops">
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Primary Industry</label>
+<div class="relative">
+<select class="input-glass rounded-lg px-sm py-sm font-body-md w-full appearance-none pr-xl">
+<option value="software">Software &amp; Technology</option>
+<option value="finance">Financial Services</option>
+<option value="logistics">Logistics &amp; Supply Chain</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Support Email</label>
+<input class="input-glass rounded-lg px-sm py-sm font-body-md w-full" type="email" value="ops@cov-enterprise.com">
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Regional Settings -->
+<div class="glass-panel rounded-xl p-md md:p-lg">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface mb-md">Regional Settings</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Timezone</label>
+<div class="relative">
+<select class="input-glass rounded-lg px-sm py-sm font-body-md w-full appearance-none pr-xl">
+<option value="utc">UTC (Coordinated Universal Time)</option>
+<option value="est">EST (Eastern Standard Time)</option>
+<option selected="" value="pst">PST (Pacific Standard Time)</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Date Format</label>
+<div class="relative">
+<select class="input-glass rounded-lg px-sm py-sm font-body-md w-full appearance-none pr-xl">
+<option value="iso">YYYY-MM-DD</option>
+<option selected="" value="us">MM/DD/YYYY</option>
+<option value="eu">DD/MM/YYYY</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Advanced Features -->
+<div class="glass-panel rounded-xl p-md md:p-lg">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface mb-md">Advanced Features</h3>
+<div class="flex flex-col gap-md">
+<div class="flex items-center justify-between p-sm rounded-lg bg-surface-container-low/50 border border-white/5">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface">Enable Experimental Analytics</span>
+<span class="font-body-md text-[14px] text-on-surface-variant">Gain early access to beta data visualization modules.</span>
+</div>
+<input checked="" class="toggle-switch" type="checkbox">
+</div>
+<div class="flex items-center justify-between p-sm rounded-lg bg-surface-container-low/50 border border-white/5">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface">Strict IP Whitelisting</span>
+<span class="font-body-md text-[14px] text-on-surface-variant">Restrict dashboard access to known corporate IP addresses.</span>
+</div>
+<input class="toggle-switch" type="checkbox">
+</div>
+<div class="flex items-center justify-between p-sm rounded-lg bg-surface-container-low/50 border border-white/5">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface">Automated Report Archiving</span>
+<span class="font-body-md text-[14px] text-on-surface-variant">Move reports older than 90 days to cold storage automatically.</span>
+</div>
+<input checked="" class="toggle-switch" type="checkbox">
+</div>
+</div>
+</div>
+<!-- Danger Zone -->
+<div class="glass-panel rounded-xl p-md md:p-lg border-error/20 bg-error/5">
+<h3 class="font-headline-md text-headline-md font-semibold text-error mb-sm">Danger Zone</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">These actions are irreversible and will affect the entire workspace.</p>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Delete Workspace</span>
+<span class="font-body-md text-[14px] text-on-surface-variant">Permanently remove all data, settings, and team access.</span>
+</div>
+<button class="px-md py-sm rounded-lg border border-error/50 text-error hover:bg-error/10 font-label-md text-label-md transition-colors">
+                                Delete Workspace
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Footer -->
+<div class="fixed bottom-0 left-0 md:left-64 right-0 glass-panel border-t border-white/10 p-sm md:p-md z-40 flex items-center justify-between animate-fade-in-up">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">info</span>
+<span class="font-body-md text-body-md text-on-surface-variant hidden md:inline">You have unsaved changes in General Settings.</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="btn-secondary px-md py-sm rounded-lg font-label-md text-label-md">
+                Discard
+            </button>
+<button class="btn-primary px-lg py-sm rounded-lg font-label-md text-label-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                Save Changes
+            </button>
+</div>
+</div>
+</body></html>
