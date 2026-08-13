@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dashboard_screen.dart';
-import 'register_screen.dart'; // Importación de tu nueva pantalla
+
+import '../services/auth_service.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,12 +12,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _authService = AuthService();
+  bool _isLoading = false;
   bool _obscurePassword = true;
-  bool _isLoading = false; // Controlador para el efecto de carga
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -24,256 +26,185 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _signInWithEmail() async {
+    if (!_formKey.currentState!.validate()) return;
+    await _runAuthAction(
+      () => _authService.signInWithEmail(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ),
+    );
+  }
+
+  Future<void> _signInWithGoogle() =>
+      _runAuthAction(_authService.signInWithGoogle);
+
+  Future<void> _runAuthAction(Future<void> Function() action) async {
+    setState(() => _isLoading = true);
+    try {
+      await action();
+    } on FirebaseAuthException catch (error) {
+      _showMessage(_authErrorMessage(error), isError: true);
+    } catch (_) {
+      _showMessage(
+        'No fue posible iniciar sesión. Intenta nuevamente.',
+        isError: true,
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  String _authErrorMessage(FirebaseAuthException error) {
+    switch (error.code) {
+      case 'invalid-credential':
+      case 'wrong-password':
+      case 'user-not-found':
+        return 'Correo o contraseña incorrectos.';
+      case 'invalid-email':
+        return 'Ingresa un correo electrónico válido.';
+      case 'network-request-failed':
+        return 'Revisa tu conexión a internet.';
+      default:
+        return error.message ?? 'No fue posible iniciar sesión.';
+    }
+  }
+
+  void _showMessage(String message, {required bool isError}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError
+            ? const Color(0xFFC62828)
+            : const Color(0xFF2E7D32),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF09090B),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/screen.png', height: 80),
-                const SizedBox(height: 4),
-                const Text(
-                  'Control de Operaciones y Ventas',
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                const SizedBox(height: 32),
-
-                Container(
-                  padding: const EdgeInsets.all(24.0),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF16161D),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF27272A)),
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Correo Electrónico',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        const SizedBox(height: 8),
-
-                        TextFormField(
-                          controller: _emailController,
-                          style: const TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(
-                              Icons.mail_outline,
-                              color: Colors.grey.shade600,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF1565C0), Color(0xFF0D47A1)],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 440),
+                child: Card(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(28),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Icon(
+                            Icons.task_alt,
+                            size: 68,
+                            color: Color(0xFF1565C0),
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor ingresa tu correo';
-                            }
-                            final emailRegex = RegExp(
-                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                            );
-                            if (!emailRegex.hasMatch(value)) {
-                              return 'Ingresa un correo electrónico válido';
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Contraseña',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        const SizedBox(height: 8),
-
-                        TextFormField(
-                          controller: _passwordController,
-                          obscureText: _obscurePassword,
-                          style: const TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(
-                              Icons.lock_outline,
-                              color: Colors.grey.shade600,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                                color: Colors.grey.shade600,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'COV App',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor ingresa tu contraseña';
-                            }
-                            if (value.length < 6) {
-                              return 'La contraseña debe tener al menos 6 caracteres';
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFF4F64),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Organiza tus tareas y avanza cada día.',
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 28),
+                          TextFormField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: const [AutofillHints.email],
+                            decoration: const InputDecoration(
+                              labelText: 'Correo electrónico',
+                              prefixIcon: Icon(Icons.email_outlined),
+                            ),
+                            validator: (value) =>
+                                value == null || !value.contains('@')
+                                ? 'Ingresa un correo válido.'
+                                : null,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _passwordController,
+                            obscureText: _obscurePassword,
+                            autofillHints: const [AutofillHints.password],
+                            onFieldSubmitted: (_) => _signInWithEmail(),
+                            decoration: InputDecoration(
+                              labelText: 'Contraseña',
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              suffixIcon: IconButton(
+                                tooltip: _obscurePassword
+                                    ? 'Mostrar contraseña'
+                                    : 'Ocultar contraseña',
+                                onPressed: () => setState(
+                                  () => _obscurePassword = !_obscurePassword,
+                                ),
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                ),
                               ),
                             ),
-                            // Si _isLoading es true, deshabilitamos el botón (pasamos null)
-                            onPressed: _isLoading
-                                ? null
-                                : () async {
-                                    final form =
-                                        _formKey.currentState as FormState?;
-
-                                    if (form != null && form.validate()) {
-                                      // Encendemos el efecto de carga
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-
-                                      // Simulamos 2 segundos de espera al servidor
-                                      await Future.delayed(
-                                        const Duration(seconds: 2),
-                                      );
-
-                                      // Buena práctica en Flutter antes de usar 'context' después de un await
-                                      if (!context.mounted) return;
-
-                                      if (_emailController.text ==
-                                              'admin@cov.com' &&
-                                          _passwordController.text ==
-                                              'isaac2007') {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const DashboardScreen(),
-                                          ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Correo o contraseña incorrectos',
-                                            ),
-                                            backgroundColor: Colors.red,
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
-                                        );
-                                      }
-
-                                      // Apagamos el efecto de carga
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                    }
-                                  },
-                            // Cambiamos el contenido del botón dependiendo de _isLoading
+                            validator: (value) =>
+                                value == null || value.length < 6
+                                ? 'La contraseña debe tener al menos 6 caracteres.'
+                                : null,
+                          ),
+                          const SizedBox(height: 24),
+                          FilledButton(
+                            onPressed: _isLoading ? null : _signInWithEmail,
                             child: _isLoading
                                 ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
+                                    height: 22,
+                                    width: 22,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
                                       strokeWidth: 2,
+                                      color: Colors.white,
                                     ),
                                   )
-                                : const Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Ingresar',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    ],
-                                  ),
+                                : const Text('Iniciar sesión'),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 12),
+                          OutlinedButton.icon(
+                            onPressed: _isLoading ? null : _signInWithGoogle,
+                            icon: const Icon(Icons.g_mobiledata, size: 28),
+                            label: const Text('Continuar con Google'),
+                          ),
+                          const SizedBox(height: 12),
+                          TextButton(
+                            onPressed: _isLoading
+                                ? null
+                                : () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const RegisterScreen(),
+                                    ),
+                                  ),
+                            child: const Text(
+                              '¿No tienes una cuenta? Regístrate',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 24), // Espacio de separación
-                // Enlace para crear cuenta (Agregado)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      '¿No tienes una cuenta?',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Crear cuenta',
-                        style: TextStyle(
-                          color: Color(0xFFFF4F64),
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
         ),

@@ -1,17 +1,28 @@
-# stitch_cov_dark_mobile_login
+# COV App
 
-A new Flutter project.
+Aplicación Flutter para la gestión de tareas, con autenticación y datos en Firebase.
 
-## Getting Started
+## Estructura
 
-This project is a starting point for a Flutter application.
+```text
+lib/
+  screens/                 Pantallas de la aplicación
+  main.dart                Punto de entrada y tema global
+  firebase_options.dart    Configuración generada de Firebase
+assets/
+  images/                  Imágenes que usa la aplicación
+docs/
+  design-references/       Diseños de referencia exportados desde Stitch
+test/                      Pruebas automatizadas
+android/                   Configuración de Android
+web/                       Configuración de Web
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Ejecutar
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+La carpeta `docs/design-references/` es documentación visual: no forma parte de la aplicación compilada.

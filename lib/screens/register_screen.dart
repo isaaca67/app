@@ -1,186 +1,155 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../services/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State createState() => _RegisterScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State {
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _authService = AuthService();
+  bool _isLoading = false;
   bool _obscurePassword = true;
-  final _formKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _register() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
+    try {
+      await _authService.registerWithEmail(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (mounted) Navigator.of(context).pop();
+    } on FirebaseAuthException catch (error) {
+      final message = error.code == 'email-already-in-use'
+          ? 'Ese correo ya está registrado.'
+          : error.code == 'weak-password'
+          ? 'Usa una contraseña más segura.'
+          : error.message ?? 'No fue posible crear la cuenta.';
+      _showError(message);
+    } catch (_) {
+      _showError('No fue posible crear la cuenta. Intenta nuevamente.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _showError(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: const Color(0xFFC62828),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF09090B),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Crear Nueva Cuenta',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Regístrate para acceder al sistema COV',
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                const SizedBox(height: 32),
-
-                Container(
-                  padding: const EdgeInsets.all(24.0),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF16161D),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF27272A)),
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Campo Nombre
-                        const Text(
-                          'Nombre Completo',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          style: const TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(
-                              Icons.person_outline,
-                              color: Colors.grey.shade600,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Campo Correo
-                        const Text(
-                          'Correo Electrónico',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          style: const TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(
-                              Icons.mail_outline,
-                              color: Colors.grey.shade600,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Campo Contraseña
-                        const Text(
-                          'Contraseña',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          obscureText: _obscurePassword,
-                          style: const TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(
-                              Icons.lock_outline,
-                              color: Colors.grey.shade600,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                                color: Colors.grey.shade600,
-                              ),
-                              onPressed: () => setState(
-                                () => _obscurePassword = !_obscurePassword,
-                              ),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-
-                        // Botón Registrarse
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFF4F64),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Por ahora solo regresa al Login tras un registro exitoso simulado
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Cuenta creada exitosamente'),
-                                  backgroundColor: Colors.green,
-                                ),
-                              );
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Registrarse',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+      appBar: AppBar(title: const Text('Crear cuenta')),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Comienza con COV App',
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Crea tu cuenta para guardar las tareas de forma segura.',
+                    ),
+                    const SizedBox(height: 28),
+                    TextFormField(
+                      controller: _nameController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: const InputDecoration(
+                        labelText: 'Nombre',
+                        prefixIcon: Icon(Icons.person_outline),
+                      ),
+                      validator: (value) =>
+                          value == null || value.trim().length < 2
+                          ? 'Ingresa tu nombre.'
+                          : null,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: 'Correo electrónico',
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
+                      validator: (value) =>
+                          value == null || !value.contains('@')
+                          ? 'Ingresa un correo válido.'
+                          : null,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Contraseña',
+                        helperText: 'Mínimo 6 caracteres',
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          onPressed: () => setState(
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
+                        ),
+                      ),
+                      validator: (value) => value == null || value.length < 6
+                          ? 'La contraseña debe tener al menos 6 caracteres.'
+                          : null,
+                    ),
+                    const SizedBox(height: 28),
+                    FilledButton(
+                      onPressed: _isLoading ? null : _register,
+                      child: _isLoading
+                          ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Text('Crear cuenta'),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

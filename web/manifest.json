@@ -1,6 +1,6 @@
 {
-    "name": "stitch_cov_dark_mobile_login",
-    "short_name": "stitch_cov_dark_mobile_login",
+    "name": "COV App",
+    "short_name": "COV App",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="stitch_cov_dark_mobile_login"
+        android:label="COV App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
