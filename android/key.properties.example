@@ -1,0 +1,17 @@
+# Configuración de firma para el APK de release (producción).
+#
+# 1. Copia este archivo a `android/key.properties` y rellena tus valores.
+# 2. NUNCA subas `key.properties` ni el archivo .jks al repositorio.
+#
+# Genera un keystore de release (se guarda en android/app/):
+#   keytool -genkeypair -v -keystore android/app/cov-upload.jks -alias cov-upload \
+#     -keyalg RSA -keysize 2048 -validity 10000 -storetype JKS
+#
+# `storeFile` es relativo a la carpeta android/app/.
+# En CI (GitHub Actions) NO uses este archivo: define los secretos
+# KEYSTORE_BASE64, KEY_ALIAS, KEY_PASSWORD y KEYSTORE_PASSWORD en el repositorio.
+
+storeFile=cov-upload.jks
+keyAlias=cov-upload
+keyPassword=TU_CONTRASEÑA
+storePassword=TU_CONTRASEÑA

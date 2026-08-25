@@ -1,0 +1,4 @@
+# Secretos de firma (NUNCA subirlos al repositorio)
+key.properties
+*.jks
+*.keystore

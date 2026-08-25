@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../services/auth_service.dart';
+import 'package:stitch_cov_dark_mobile_login/core/constants/app_constants.dart';
+import 'package:stitch_cov_dark_mobile_login/core/constants/app_strings.dart';
+import 'package:stitch_cov_dark_mobile_login/core/di/service_locator.dart';
+import 'package:stitch_cov_dark_mobile_login/core/theme/app_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key, this.googleClientId});
-
-  final String? googleClientId;
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -17,7 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  late final _authService = AuthService(googleClientId: widget.googleClientId);
+  late final _authService = serviceLocator.authService;
   bool _isLoading = false;
   bool _obscurePassword = true;
 
@@ -41,14 +41,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (mounted) Navigator.of(context).pop();
     } on FirebaseAuthException catch (error) {
       final message = error.code == 'email-already-in-use'
-          ? 'Ese correo ya está registrado.'
+          ? AppStrings.authErrorEmailInUse
           : error.code == 'weak-password'
-          ? 'Usa una contraseña más segura.'
-          : error.code == 'network-request-failed'
-          ? 'Revisa tu conexión a internet. Verifica que Firebase Auth esté habilitado.'
-          : error.code == 'api-key-not-valid'
-          ? 'API Key inválida. Verifica la configuración de Firebase.'
-          : error.message ?? 'No fue posible crear la cuenta.';
+              ? AppStrings.authErrorWeakPassword
+              : error.code == 'network-request-failed'
+                  ? AppStrings.authErrorNetworkFailed
+                  : error.code == 'api-key-not-valid'
+                      ? AppStrings.authErrorApiKeyInvalid
+                      : error.message ?? 'No fue posible crear la cuenta.';
       _showError(message);
     } catch (_) {
       _showError('No fue posible crear la cuenta. Intenta nuevamente.');
@@ -62,7 +62,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: const Color(0xFFC62828),
+        backgroundColor: AppTheme.errorColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -70,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Crear cuenta')),
+      appBar: AppBar(title: const Text(AppStrings.registerButton)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -83,46 +85,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Comienza con COV App',
+                      AppStrings.createAccountTitle,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Crea tu cuenta para guardar las tareas de forma segura.',
+                    Text(
+                      AppStrings.createAccountSubtitle,
                     ),
                     const SizedBox(height: 28),
                     TextFormField(
                       controller: _nameController,
                       textCapitalization: TextCapitalization.words,
                       decoration: const InputDecoration(
-                        labelText: 'Nombre',
+                        labelText: AppStrings.nameLabel,
                         prefixIcon: Icon(Icons.person_outline),
                       ),
                       validator: (value) =>
-                          value == null || value.trim().length < 2
-                          ? 'Ingresa tu nombre.'
-                          : null,
+                          value == null || value.trim().length < AppConstants.nameMinLength
+                              ? AppStrings.nameTooShort
+                              : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        labelText: 'Correo electrónico',
+                        labelText: AppStrings.emailLabel,
                         prefixIcon: Icon(Icons.email_outlined),
                       ),
                       validator: (value) =>
                           value == null || !value.contains('@')
-                          ? 'Ingresa un correo válido.'
-                          : null,
+                              ? AppStrings.invalidEmail
+                              : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
-                        labelText: 'Contraseña',
-                        helperText: 'Mínimo 6 caracteres',
+                        labelText: AppStrings.passwordLabel,
+                        helperText: 'Mínimo ${AppConstants.passwordMinLength} caracteres',
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           onPressed: () => setState(
@@ -135,8 +137,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      validator: (value) => value == null || value.length < 6
-                          ? 'La contraseña debe tener al menos 6 caracteres.'
+                      validator: (value) => value == null || value.length < AppConstants.passwordMinLength
+                          ? AppStrings.passwordTooShort
                           : null,
                     ),
                     const SizedBox(height: 28),
@@ -151,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: Colors.white,
                               ),
                             )
-                          : const Text('Crear cuenta'),
+                          : const Text(AppStrings.registerButton),
                     ),
                   ],
                 ),

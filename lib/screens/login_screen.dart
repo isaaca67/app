@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../services/auth_service.dart';
-import 'register_screen.dart';
+import 'package:stitch_cov_dark_mobile_login/core/constants/app_constants.dart';
+import 'package:stitch_cov_dark_mobile_login/core/constants/app_strings.dart';
+import 'package:stitch_cov_dark_mobile_login/core/di/service_locator.dart';
+import 'package:stitch_cov_dark_mobile_login/core/theme/app_theme.dart';
+import 'package:stitch_cov_dark_mobile_login/features/auth/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authService = AuthService();
+  late final _authService = serviceLocator.authService;
+
   bool _isLoading = false;
   bool _obscurePassword = true;
 
@@ -45,9 +48,13 @@ class _LoginScreenState extends State<LoginScreen> {
       await action();
     } on FirebaseAuthException catch (error) {
       _showMessage(_authErrorMessage(error), isError: true);
-    } catch (_) {
+    } catch (e) {
+      if (e.toString().contains('Canceled') ||
+          e.toString().contains('popup_closed_by_user')) {
+        return;
+      }
       _showMessage(
-        'No fue posible iniciar sesión. Intenta nuevamente.',
+        AppStrings.authErrorNetworkFailed,
         isError: true,
       );
     } finally {
@@ -60,13 +67,21 @@ class _LoginScreenState extends State<LoginScreen> {
       case 'invalid-credential':
       case 'wrong-password':
       case 'user-not-found':
-        return 'Correo o contraseña incorrectos.';
+        return AppStrings.authErrorInvalidCredential;
       case 'invalid-email':
-        return 'Ingresa un correo electrónico válido.';
+        return AppStrings.authErrorInvalidEmail;
       case 'network-request-failed':
-        return 'Revisa tu conexión a internet.';
+        return AppStrings.authErrorNetworkFailed;
+      case 'api-key-not-valid':
+        return AppStrings.authErrorApiKeyInvalid;
+      case 'app-not-authorized':
+        return AppStrings.authErrorAppNotAuthorized;
+      case 'google-sign-in-cancelled':
+        return AppStrings.authErrorGoogleCancelled;
+      case 'google-auth-tokens-null':
+        return AppStrings.authErrorGoogleTokensNull;
       default:
-        return error.message ?? 'No fue posible iniciar sesión.';
+        return '${AppStrings.authErrorGeneric} (${error.code})';
     }
   }
 
@@ -75,9 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: isError
-            ? const Color(0xFFC62828)
-            : const Color(0xFF2E7D32),
+        backgroundColor: isError ? AppTheme.errorColor : AppTheme.successColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -85,14 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF1565C0), Color(0xFF0D47A1)],
-          ),
-        ),
+      backgroundColor: AppTheme.darkBackground,
+      body: Theme(
+        data: AppTheme.darkTheme,
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -100,7 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 440),
                 child: Card(
-                  color: Colors.white,
+                  color: AppTheme.darkSurface,
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: const BorderSide(color: AppTheme.darkBorder),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(28),
                     child: Form(
@@ -109,20 +124,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Icon(
-                            Icons.task_alt,
+                            Icons.storefront,
                             size: 68,
-                            color: Color(0xFF1565C0),
+                            color: AppTheme.primaryColor,
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'COV App',
+                            AppStrings.loginTitle,
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.headlineMedium,
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.primaryColor,
+                                ),
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            'Organiza tus tareas y avanza cada día.',
+                          Text(
+                            AppStrings.loginSubtitle,
                             textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           const SizedBox(height: 28),
                           TextFormField(
@@ -130,13 +149,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.emailAddress,
                             autofillHints: const [AutofillHints.email],
                             decoration: const InputDecoration(
-                              labelText: 'Correo electrónico',
+                              labelText: AppStrings.emailLabel,
                               prefixIcon: Icon(Icons.email_outlined),
                             ),
                             validator: (value) =>
                                 value == null || !value.contains('@')
-                                ? 'Ingresa un correo válido.'
-                                : null,
+                                    ? AppStrings.invalidEmail
+                                    : null,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -145,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             autofillHints: const [AutofillHints.password],
                             onFieldSubmitted: (_) => _signInWithEmail(),
                             decoration: InputDecoration(
-                              labelText: 'Contraseña',
+                              labelText: AppStrings.passwordLabel,
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 tooltip: _obscurePassword
@@ -162,13 +181,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             validator: (value) =>
-                                value == null || value.length < 6
-                                ? 'La contraseña debe tener al menos 6 caracteres.'
-                                : null,
+                                value == null || value.length < AppConstants.passwordMinLength
+                                    ? AppStrings.passwordTooShort
+                                    : null,
                           ),
                           const SizedBox(height: 24),
                           FilledButton(
                             onPressed: _isLoading ? null : _signInWithEmail,
+                            style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                             child: _isLoading
                                 ? const SizedBox(
                                     height: 22,
@@ -178,26 +203,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Colors.white,
                                     ),
                                   )
-                                : const Text('Iniciar sesión'),
+                                : const Text(
+                                    AppStrings.loginButton,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                           ),
                           const SizedBox(height: 12),
                           OutlinedButton.icon(
                             onPressed: _isLoading ? null : _signInWithGoogle,
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                             icon: const Icon(Icons.g_mobiledata, size: 28),
-                            label: const Text('Continuar con Google'),
+                            label: const Text(
+                              AppStrings.googleLoginButton,
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
                           const SizedBox(height: 12),
                           TextButton(
                             onPressed: _isLoading
                                 ? null
                                 : () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => const RegisterScreen(),
+                                      MaterialPageRoute(
+                                        builder: (_) => const RegisterScreen(),
+                                      ),
                                     ),
-                                  ),
-                            child: const Text(
-                              '¿No tienes una cuenta? Regístrate',
-                            ),
+                            child: const Text(AppStrings.registerLink),
                           ),
                         ],
                       ),
