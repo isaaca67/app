@@ -54,3 +54,14 @@ android/app/key.properties
 *.jks
 *.keystore
 .firebase/*
+.google-services.json
+**/google-services.json
+
+# Firebase project config (contiene alias del proyecto)
+.firebaserc
+
+# Build reports
+**/build/reports/
+
+# Coverage
+*.lcov
