@@ -23,7 +23,7 @@ fun secret(key: String, env: String): String? {
 }
 
 android {
-    namespace = "com.cov.stitch_cov_dark_mobile_login"
+    namespace = "com.cov.app.v2"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.cov.stitch_cov_dark_mobile_login"
+        applicationId = "com.cov.app.v2"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

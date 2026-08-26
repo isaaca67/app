@@ -31,6 +31,15 @@ Future<void> main() async {
     googleClientId: AppConfig.googleSignInClientId,
   );
 
+  // Handle OAuth redirect result on web (for signInWithRedirect)
+  if (kIsWeb) {
+    try {
+      await serviceLocator.authService.handleRedirectResult();
+    } catch (e) {
+      initializationError = e;
+    }
+  }
+
   runApp(MyApp(
     initializationError: initializationError,
   ));

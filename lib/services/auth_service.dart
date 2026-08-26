@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -10,12 +11,11 @@ class AuthService {
     String? googleClientId,
   }) : _auth = auth ?? FirebaseAuth.instance,
        _firestore = firestore ?? FirebaseFirestore.instance,
-       _googleSignIn =
-           googleSignIn ?? GoogleSignIn(clientId: googleClientId);
+       _googleSignIn = kIsWeb ? null : (googleSignIn ?? GoogleSignIn(clientId: googleClientId));
 
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
-  final GoogleSignIn _googleSignIn;
+  final GoogleSignIn? _googleSignIn;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
@@ -43,8 +43,39 @@ class AuthService {
   }
 
   Future<void> signInWithGoogle() async {
-    final account = await _googleSignIn.signIn();
-    // Usuario canceló el selector de cuentas
+    if (kIsWeb) {
+      await _signInWithGoogleWeb();
+    } else {
+      await _signInWithGoogleMobile();
+    }
+  }
+
+  Future<void> _signInWithGoogleWeb() async {
+    final googleProvider = GoogleAuthProvider();
+    googleProvider.setCustomParameters({'prompt': 'select_account'});
+    await _auth.signInWithRedirect(googleProvider);
+  }
+
+  Future<void> handleRedirectResult() async {
+    if (!kIsWeb) return;
+    try {
+      final result = await _auth.getRedirectResult();
+      if (result.user != null) {
+        await _saveUserProfile(result.user);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'auth/cancelled-popup-request') {
+        throw FirebaseAuthException(
+          code: 'google-sign-in-cancelled',
+          message: 'El inicio de sesión con Google fue cancelado.',
+        );
+      }
+      rethrow;
+    }
+  }
+
+  Future<void> _signInWithGoogleMobile() async {
+    final account = await _googleSignIn!.signIn();
     if (account == null) {
       throw FirebaseAuthException(
         code: 'google-sign-in-cancelled',
@@ -53,7 +84,6 @@ class AuthService {
     }
 
     final authentication = await account.authentication;
-    // En web, a veces los tokens pueden ser null si hay problemas de configuración
     if (authentication.accessToken == null || authentication.idToken == null) {
       throw FirebaseAuthException(
         code: 'google-auth-tokens-null',
@@ -71,7 +101,7 @@ class AuthService {
 
   Future<void> signOut() async {
     try {
-      await _googleSignIn.signOut();
+      await _googleSignIn?.signOut();
     } catch (_) {
       // Ignoramos el error si el usuario no usó Google
     }
