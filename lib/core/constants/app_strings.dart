@@ -36,4 +36,12 @@ class AppStrings {
   static const String authErrorGoogleCancelled = 'Inicio de sesión con Google cancelado.';
   static const String authErrorGoogleTokensNull =
       'Error de configuración de Google. Verifica OAuth en Firebase Console.';
+  static const String authErrorGoogleFailed =
+      'Error en el inicio de sesión con Google. Verifica configuración en Firebase Console.';
+  static const String authErrorUnauthorizedDomain =
+      'Dominio no autorizado. Agrega tu dominio en Firebase Console → Authentication → Settings → Authorized domains.';
+  static const String authErrorOperationNotSupported =
+      'Tu navegador bloquea el inicio de sesión. Prueba en Chrome o Edge con ventanas emergentes permitidas.';
+  static const String authErrorPopupBlocked =
+      'El navegador bloqueó la ventana de Google. Permite ventanas emergentes e inténtalo de nuevo.';
 }

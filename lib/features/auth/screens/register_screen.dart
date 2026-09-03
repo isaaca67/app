@@ -4,6 +4,7 @@ import 'package:stitch_cov_dark_mobile_login/core/constants/app_constants.dart';
 import 'package:stitch_cov_dark_mobile_login/core/constants/app_strings.dart';
 import 'package:stitch_cov_dark_mobile_login/core/di/service_locator.dart';
 import 'package:stitch_cov_dark_mobile_login/core/theme/app_theme.dart';
+import 'package:stitch_cov_dark_mobile_login/features/auth/utils/auth_validators.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -43,12 +44,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final message = error.code == 'email-already-in-use'
           ? AppStrings.authErrorEmailInUse
           : error.code == 'weak-password'
-              ? AppStrings.authErrorWeakPassword
-              : error.code == 'network-request-failed'
-                  ? AppStrings.authErrorNetworkFailed
-                  : error.code == 'api-key-not-valid'
-                      ? AppStrings.authErrorApiKeyInvalid
-                      : error.message ?? 'No fue posible crear la cuenta.';
+          ? AppStrings.authErrorWeakPassword
+          : error.code == 'network-request-failed'
+          ? AppStrings.authErrorNetworkFailed
+          : error.code == 'api-key-not-valid'
+          ? AppStrings.authErrorApiKeyInvalid
+          : error.message ?? 'No fue posible crear la cuenta.';
       _showError(message);
     } catch (_) {
       _showError('No fue posible crear la cuenta. Intenta nuevamente.');
@@ -89,9 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      AppStrings.createAccountSubtitle,
-                    ),
+                    Text(AppStrings.createAccountSubtitle),
                     const SizedBox(height: 28),
                     TextFormField(
                       controller: _nameController,
@@ -100,10 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         labelText: AppStrings.nameLabel,
                         prefixIcon: Icon(Icons.person_outline),
                       ),
-                      validator: (value) =>
-                          value == null || value.trim().length < AppConstants.nameMinLength
-                              ? AppStrings.nameTooShort
-                              : null,
+                      validator: AuthValidators.name,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -113,10 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         labelText: AppStrings.emailLabel,
                         prefixIcon: Icon(Icons.email_outlined),
                       ),
-                      validator: (value) =>
-                          value == null || !value.contains('@')
-                              ? AppStrings.invalidEmail
-                              : null,
+                      validator: AuthValidators.email,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -124,7 +117,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         labelText: AppStrings.passwordLabel,
-                        helperText: 'Mínimo ${AppConstants.passwordMinLength} caracteres',
+                        helperText:
+                            'Mínimo ${AppConstants.passwordMinLength} caracteres',
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           onPressed: () => setState(
@@ -137,9 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      validator: (value) => value == null || value.length < AppConstants.passwordMinLength
-                          ? AppStrings.passwordTooShort
-                          : null,
+                      validator: AuthValidators.password,
                     ),
                     const SizedBox(height: 28),
                     FilledButton(

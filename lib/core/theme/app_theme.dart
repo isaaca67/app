@@ -13,6 +13,102 @@ class AppTheme {
   static const Color darkSurface = Color(0xFF121212);
   static const Color darkBorder = Color(0xFF2A2A2A);
 
+  static final BorderRadius radiusXS = BorderRadius.circular(4);
+  static final BorderRadius radiusSM = BorderRadius.circular(8);
+  static final BorderRadius radiusMD = BorderRadius.circular(12);
+  static final BorderRadius radiusLG = BorderRadius.circular(16);
+  static final BorderRadius radiusXL = BorderRadius.circular(20);
+
+  static const List<BoxShadow> cardShadow = [
+    BoxShadow(
+      color: Color(0x0F000000),
+      blurRadius: 12,
+      offset: Offset(0, 4),
+    ),
+  ];
+
+  static const List<BoxShadow> elevatedShadow = [
+    BoxShadow(
+      color: Color(0x1A000000),
+      blurRadius: 8,
+      offset: Offset(0, 3),
+    ),
+  ];
+
+  static const List<BoxShadow> floatingShadow = [
+    BoxShadow(
+      color: Color(0x24000000),
+      blurRadius: 16,
+      offset: Offset(0, 6),
+    ),
+  ];
+
+  static const TextTheme lightTextTheme = TextTheme(
+    headlineLarge: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: Color(0xFF212121),
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.bold,
+      color: Color(0xFF212121),
+    ),
+    titleLarge: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Color(0xFF212121),
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF212121),
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF424242),
+    ),
+    bodyLarge: TextStyle(fontSize: 16, color: Color(0xFF424242)),
+    bodyMedium: TextStyle(fontSize: 14, color: Color(0xFF616161)),
+    bodySmall: TextStyle(fontSize: 12, color: Color(0xFF9E9E9E)),
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF212121)),
+    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF9E9E9E)),
+  );
+
+  static const TextTheme darkTextTheme = TextTheme(
+    headlineLarge: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+    titleLarge: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Colors.white70,
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.white60,
+    ),
+    bodyLarge: TextStyle(fontSize: 16, color: Colors.white70),
+    bodyMedium: TextStyle(fontSize: 14, color: Colors.white60),
+    bodySmall: TextStyle(fontSize: 12, color: Colors.white38),
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
+    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white54),
+  );
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -23,24 +119,12 @@ class AppTheme {
         error: errorColor,
         brightness: Brightness.light,
       ),
-      textTheme: GoogleFonts.interTextTheme().copyWith(
-        headlineLarge: const TextStyle(
+      textTheme: lightTextTheme.copyWith(
+        headlineLarge: GoogleFonts.interTextTheme().headlineLarge?.copyWith(
           fontSize: 32,
           fontWeight: FontWeight.bold,
-          color: Color(0xFF212121),
+          color: const Color(0xFF212121),
         ),
-        headlineMedium: const TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF212121),
-        ),
-        titleLarge: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF212121),
-        ),
-        bodyLarge: const TextStyle(fontSize: 16, color: Color(0xFF424242)),
-        bodyMedium: const TextStyle(fontSize: 14, color: Color(0xFF616161)),
       ),
       appBarTheme: const AppBarTheme(
         elevation: 8,
@@ -125,9 +209,11 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: radiusLG),
         margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        color: Colors.white,
       ),
       inputDecorationTheme: InputDecorationTheme(
         contentPadding: const EdgeInsets.symmetric(
@@ -192,24 +278,12 @@ class AppTheme {
         error: errorColor,
         brightness: Brightness.dark,
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
-        headlineLarge: const TextStyle(
+      textTheme: darkTextTheme.copyWith(
+        headlineLarge: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).headlineLarge?.copyWith(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        headlineMedium: const TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-        titleLarge: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-        bodyLarge: const TextStyle(fontSize: 16, color: Colors.white70),
-        bodyMedium: const TextStyle(fontSize: 14, color: Colors.white60),
       ),
       appBarTheme: const AppBarTheme(
         elevation: 8,
@@ -294,8 +368,9 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: radiusLG),
         margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         color: darkSurface,
       ),

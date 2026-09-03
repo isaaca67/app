@@ -47,12 +47,11 @@ jobs:
       - name: Build web
         run: flutter build web --release --dart-define=APP_ENV=production
 
-      # Publica en Firebase Hosting (canal "live") usando la cuenta de servicio
-      # definida en el secreto FIREBASE_SERVICE_ACCOUNT_COV_APP_71E00.
+      # Publica en el mismo proyecto Firebase usado por Web y Android.
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_COV_APP_71E00 }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_COV_APP_5D4B2 }}'
           channelId: live
-          projectId: cov-app-71e00
+          projectId: cov-app-5d4b2

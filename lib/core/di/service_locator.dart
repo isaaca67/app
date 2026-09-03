@@ -3,8 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stitch_cov_dark_mobile_login/services/auth_service.dart';
+import 'package:stitch_cov_dark_mobile_login/services/biometric_service.dart';
 import 'package:stitch_cov_dark_mobile_login/services/product_service.dart';
 import 'package:stitch_cov_dark_mobile_login/services/sale_service.dart';
+import 'package:stitch_cov_dark_mobile_login/services/session_service.dart';
+import 'package:stitch_cov_dark_mobile_login/services/version_service.dart';
 
 class ServiceLocator {
   static final ServiceLocator _instance = ServiceLocator._internal();
@@ -17,12 +20,14 @@ class ServiceLocator {
   late final AuthService authService;
   late final ProductService productService;
   late final SaleService saleService;
+  late final BiometricService biometricService;
+  late final SessionService sessionService;
+  late final VersionService versionService;
 
-  Future<void> initialize({String? googleClientId}) async {
+  Future<void> initialize({String? googleClientId, String? appVersion}) async {
     auth = FirebaseAuth.instance;
     firestore = FirebaseFirestore.instance;
-    // Solo crear GoogleSignIn en móvil (no en web, usamos signInWithRedirect)
-    googleSignIn = kIsWeb ? null : GoogleSignIn(clientId: googleClientId);
+    googleSignIn = kIsWeb ? null : GoogleSignIn(serverClientId: googleClientId);
     authService = AuthService(
       auth: auth,
       firestore: firestore,
@@ -31,6 +36,12 @@ class ServiceLocator {
     );
     productService = ProductService(firestore: firestore);
     saleService = SaleService(firestore: firestore);
+    biometricService = BiometricService();
+    sessionService = SessionService();
+    versionService = VersionService(
+      appVersion: appVersion ?? '1.0.0',
+      appBuildNumber: 1,
+    );
   }
 
   void reset() {

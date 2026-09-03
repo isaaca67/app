@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stitch_cov_dark_mobile_login/core/theme/app_theme.dart';
 import 'package:stitch_cov_dark_mobile_login/models/product.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   const ProductCard({
     super.key,
     required this.product,
@@ -15,62 +15,99 @@ class ProductCard extends StatelessWidget {
   final ValueChanged<Product> onDelete;
 
   @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Card(
-      margin: EdgeInsets.zero,
-      color: isDark ? AppTheme.darkSurface : Colors.white,
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: isDark ? AppTheme.darkBorder : Colors.grey[300]!),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => onEdit(product),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              _ProductImage(product: product),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+    final product = widget.product;
+    final baseBorder = isDark ? AppTheme.darkBorder : Colors.grey[300]!;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 160),
+        curve: Curves.easeOut,
+        transform: Matrix4.translationValues(0, _isHovered ? -3 : 0, 0),
+        child: Card(
+          margin: EdgeInsets.zero,
+          color: isDark ? AppTheme.darkSurface : Colors.white,
+          elevation: _isHovered ? 8 : 2,
+          shadowColor: AppTheme.primaryColor.withValues(alpha: 0.22),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(
+              color: _isHovered ? AppTheme.primaryColor : baseBorder,
+            ),
+          ),
+          child: InkWell(
+            mouseCursor: SystemMouseCursors.click,
+            hoverColor: AppTheme.primaryColor.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => widget.onEdit(product),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  _ProductImage(product: product),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '\$${product.priceLabel}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.primaryColor,
+                          ),
+                        ),
+                        if (product.barcode?.isNotEmpty == true) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            product.barcode!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                          ),
+                        ],
+                        const SizedBox(height: 8),
+                        _StockBadge(product: product),
+                      ],
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '\$${product.priceLabel}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.primaryColor,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _StockBadge(product: product),
-                  ],
-                ),
               ),
               PopupMenuButton<String>(
                 tooltip: 'Opciones de producto',
-                onSelected: (value) =>
-                    value == 'edit' ? onEdit(product) : onDelete(product),
-                itemBuilder: (_) => const [
-                  PopupMenuItem(value: 'edit', child: Text('Editar')),
-                  PopupMenuItem(value: 'delete', child: Text('Eliminar')),
+                    onSelected: (value) => value == 'edit'
+                        ? widget.onEdit(product)
+                        : widget.onDelete(product),
+                    itemBuilder: (_) => const [
+                      PopupMenuItem(value: 'edit', child: Text('Editar')),
+                      PopupMenuItem(value: 'delete', child: Text('Eliminar')),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:stitch_cov_dark_mobile_login/models/product.dart';
 
 class ProductService {
   ProductService({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+    : _firestore = firestore ?? FirebaseFirestore.instance;
 
   final FirebaseFirestore _firestore;
 
@@ -12,11 +12,10 @@ class ProductService {
   CollectionReference<Map<String, dynamic>> _products(String userId) =>
       _firestore.collection('users').doc(userId).collection('productos');
 
-  Stream<List<Product>> watchProducts(String userId) =>
-      _products(userId)
-          .where('userId', isEqualTo: userId)
-          .snapshots()
-          .map((snapshot) {
+  Stream<List<Product>> watchProducts(String userId) => _products(userId)
+      .where('userId', isEqualTo: userId)
+      .snapshots()
+      .map((snapshot) {
         final products = snapshot.docs.map(Product.fromDocument).toList();
         products.sort(
           (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
@@ -31,17 +30,18 @@ class ProductService {
     required String name,
     required double price,
     required int quantity,
+    String? barcode,
     String? photoUrl,
-  }) =>
-      _products(userId).add({
-        'userId': userId,
-        'nombre': name.trim(),
-        'precio': price,
-        'cantidad': quantity,
-        'foto': photoUrl,
-        'createdAt': FieldValue.serverTimestamp(),
-        'updatedAt': FieldValue.serverTimestamp(),
-      });
+  }) => _products(userId).add({
+    'userId': userId,
+    'nombre': name.trim(),
+    'precio': price,
+    'cantidad': quantity,
+    'codigoBarras': barcode?.trim().isEmpty == true ? null : barcode?.trim(),
+    'foto': photoUrl,
+    'createdAt': FieldValue.serverTimestamp(),
+    'updatedAt': FieldValue.serverTimestamp(),
+  });
 
   Future<void> updateProduct({
     required String userId,
@@ -49,16 +49,17 @@ class ProductService {
     required String name,
     required double price,
     required int quantity,
+    String? barcode,
     String? photoUrl,
-  }) =>
-      _products(userId).doc(product.id).update({
-        'userId': userId,
-        'nombre': name.trim(),
-        'precio': price,
-        'cantidad': quantity,
-        'foto': photoUrl,
-        'updatedAt': FieldValue.serverTimestamp(),
-      });
+  }) => _products(userId).doc(product.id).update({
+    'userId': userId,
+    'nombre': name.trim(),
+    'precio': price,
+    'cantidad': quantity,
+    'codigoBarras': barcode?.trim().isEmpty == true ? null : barcode?.trim(),
+    'foto': photoUrl,
+    'updatedAt': FieldValue.serverTimestamp(),
+  });
 
   /// Descuenta (o incrementa si es negativo) la cantidad vendida del stock.
   Future<void> adjustStock(String userId, String productId, int delta) async {

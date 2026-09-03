@@ -13,5 +13,11 @@ service cloud.firestore {
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
     }
+
+    // Configuración pública de solo lectura (versión de app). Sin Blaze.
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
   }
 }

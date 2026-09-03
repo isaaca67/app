@@ -24,7 +24,7 @@ fun secret(key: String, env: String): String? {
 
 android {
     namespace = "com.cov.app.v2"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

@@ -7,6 +7,7 @@ class Product {
     required this.name,
     required this.price,
     required this.quantity,
+    this.barcode,
     this.photoUrl,
     this.createdAt,
     this.updatedAt,
@@ -17,6 +18,7 @@ class Product {
   final String name;
   final double price;
   final int quantity;
+  final String? barcode;
   final String? photoUrl;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -32,7 +34,9 @@ class Product {
 
   bool get isOutOfStock => quantity <= 0;
 
-  factory Product.fromDocument(DocumentSnapshot<Map<String, dynamic>> document) {
+  factory Product.fromDocument(
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
     final data = document.data() ?? <String, dynamic>{};
     return Product(
       id: document.id,
@@ -40,6 +44,7 @@ class Product {
       name: data['nombre'] ?? data['name'] ?? '',
       price: (data['precio'] ?? data['price'] ?? 0).toDouble(),
       quantity: (data['cantidad'] ?? data['quantity'] ?? 0).toInt(),
+      barcode: data['codigoBarras'] ?? data['barcode'],
       photoUrl: data['foto'] ?? data['photoUrl'],
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (data['updatedAt'] as Timestamp?)?.toDate(),
@@ -52,6 +57,7 @@ class Product {
       'nombre': name,
       'precio': price,
       'cantidad': quantity,
+      'codigoBarras': barcode,
       'foto': photoUrl,
       'createdAt': createdAt != null
           ? Timestamp.fromDate(createdAt!)
@@ -66,6 +72,7 @@ class Product {
     String? name,
     double? price,
     int? quantity,
+    String? barcode,
     String? photoUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -76,6 +83,7 @@ class Product {
       name: name ?? this.name,
       price: price ?? this.price,
       quantity: quantity ?? this.quantity,
+      barcode: barcode ?? this.barcode,
       photoUrl: photoUrl ?? this.photoUrl,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -92,6 +100,7 @@ class Product {
           name == other.name &&
           price == other.price &&
           quantity == other.quantity &&
+          barcode == other.barcode &&
           photoUrl == other.photoUrl &&
           createdAt == other.createdAt &&
           updatedAt == other.updatedAt;
@@ -103,6 +112,7 @@ class Product {
       name.hashCode ^
       price.hashCode ^
       quantity.hashCode ^
+      barcode.hashCode ^
       photoUrl.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode;

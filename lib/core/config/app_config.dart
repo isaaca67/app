@@ -38,49 +38,49 @@ class AppConfig {
   // --- Firebase: Web ---
   static const String _webApiKey = String.fromEnvironment(
     'FIREBASE_WEB_API_KEY',
-    defaultValue: 'AIzaSyDSnQ74yBb-lYPFrjvhf_m9xKoqT670DMw',
+    defaultValue: 'AIzaSyBbFl6PViR5WB9KykwlS3HMJx0qKxa3hU0',
   );
   static const String _webAppId = String.fromEnvironment(
     'FIREBASE_WEB_APP_ID',
-    defaultValue: '1:1004379594579:web:9c9ce66a86705d40c08ba6',
+    defaultValue: '1:55959964226:web:a31cf8b8c9cd8d52973bdb',
   );
   static const String _webSenderId = String.fromEnvironment(
     'FIREBASE_WEB_SENDER_ID',
-    defaultValue: '1004379594579',
+    defaultValue: '55959964226',
   );
   static const String _projectId = String.fromEnvironment(
     'FIREBASE_PROJECT_ID',
-    defaultValue: 'cov-app-71e00',
+    defaultValue: 'cov-app-5d4b2',
   );
   static const String _webAuthDomain = String.fromEnvironment(
     'FIREBASE_WEB_AUTH_DOMAIN',
-    defaultValue: 'cov-app-71e00.firebaseapp.com',
+    defaultValue: 'cov-app-5d4b2.firebaseapp.com',
   );
   static const String _webStorageBucket = String.fromEnvironment(
     'FIREBASE_WEB_STORAGE_BUCKET',
-    defaultValue: 'cov-app-71e00.firebasestorage.app',
+    defaultValue: 'cov-app-5d4b2.firebasestorage.app',
   );
   static const String _webMeasurementId = String.fromEnvironment(
     'FIREBASE_WEB_MEASUREMENT_ID',
-    defaultValue: 'G-T2K1LRB6F7',
+    defaultValue: '',
   );
 
   // --- Firebase: Android ---
   static const String _androidApiKey = String.fromEnvironment(
     'FIREBASE_ANDROID_API_KEY',
-    defaultValue: 'AIzaSyACdumZYQ6F_rnrpfpP7pwSDO3oK8ihuh4',
+    defaultValue: 'AIzaSyBB4qdxqCnymorkFT4YwXt10m48jVLQOo8',
   );
   static const String _androidAppId = String.fromEnvironment(
     'FIREBASE_ANDROID_APP_ID',
-    defaultValue: '1:1004379594579:android:7048fc3af6abffa6c08ba6',
+    defaultValue: '1:55959964226:android:4e19c2a005ae7c2a973bdb',
   );
   static const String _androidSenderId = String.fromEnvironment(
     'FIREBASE_ANDROID_SENDER_ID',
-    defaultValue: '1004379594579',
+    defaultValue: '55959964226',
   );
   static const String _androidStorageBucket = String.fromEnvironment(
     'FIREBASE_ANDROID_STORAGE_BUCKET',
-    defaultValue: 'cov-app-71e00.firebasestorage.app',
+    defaultValue: 'cov-app-5d4b2.firebasestorage.app',
   );
 
   // --- Google OAuth ---
@@ -124,9 +124,9 @@ class AppConfig {
     }
   }
 
-  /// Client ID de Google para Web.
+  /// Client ID web usado por Firebase Auth y como `serverClientId` en Android.
   ///
-  /// En Android no se debe pasar: el plugin de Google Sign-In lee el client ID
-  /// automáticamente desde `google-services.json`/los recursos de la app.
-  static String? get googleSignInClientId => kIsWeb ? googleClientId : null;
+  /// Se pasa explícitamente en Android para que Google Sign-In no dependa del
+  /// recurso `default_web_client_id`, que puede ser eliminado al optimizar el APK.
+  static String get googleSignInClientId => googleClientId;
 }

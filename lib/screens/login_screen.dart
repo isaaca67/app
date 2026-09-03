@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:stitch_cov_dark_mobile_login/core/constants/app_constants.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stitch_cov_dark_mobile_login/core/constants/app_strings.dart';
 import 'package:stitch_cov_dark_mobile_login/core/di/service_locator.dart';
 import 'package:stitch_cov_dark_mobile_login/core/theme/app_theme.dart';
 import 'package:stitch_cov_dark_mobile_login/features/auth/screens/register_screen.dart';
+import 'package:stitch_cov_dark_mobile_login/features/auth/utils/auth_validators.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
   bool _obscurePassword = true;
+  bool _isBiometricLoading = false;
 
   @override
   void dispose() {
@@ -42,6 +46,52 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _signInWithGoogle() =>
       _runAuthAction(_authService.signInWithGoogle);
 
+  Future<void> _signInWithBiometrics() async {
+    if (kIsWeb) return;
+    if (!mounted) return;
+    setState(() => _isBiometricLoading = true);
+    try {
+      final localAuth = LocalAuthentication();
+      final available = await localAuth.canCheckBiometrics;
+      if (!available) {
+        _showMessage('Biometría no disponible.', isError: true);
+        return;
+      }
+      final authenticated = await localAuth.authenticate(
+        localizedReason: 'Inicia sesión con tu huella o rostro',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+          biometricOnly: true,
+        ),
+      );
+      if (!authenticated) {
+        _showMessage('Autenticación cancelada.', isError: true);
+        return;
+      }
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString('user_id');
+      if (userId != null) {
+        final email = prefs.getString('email') ?? '';
+        final password = prefs.getString('password') ?? '';
+        if (email.isNotEmpty && password.isNotEmpty) {
+          await _runAuthAction(() => _authService.signInWithEmail(
+                email: email,
+                password: password,
+              ));
+        } else {
+          _showMessage('Sesión biométrica activa.', isError: false);
+        }
+      } else {
+        _showMessage('No hay sesión guardada. Inicia sesión primero.', isError: true);
+      }
+    } catch (_) {
+      _showMessage('Error en la autenticación biométrica.', isError: true);
+    } finally {
+      if (mounted) setState(() => _isBiometricLoading = false);
+    }
+  }
+
   Future<void> _runAuthAction(Future<void> Function() action) async {
     setState(() => _isLoading = true);
     try {
@@ -53,10 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
           e.toString().contains('popup_closed_by_user')) {
         return;
       }
-      _showMessage(
-        AppStrings.authErrorNetworkFailed,
-        isError: true,
-      );
+      _showMessage(AppStrings.authErrorNetworkFailed, isError: true);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -77,9 +124,19 @@ class _LoginScreenState extends State<LoginScreen> {
       case 'app-not-authorized':
         return AppStrings.authErrorAppNotAuthorized;
       case 'google-sign-in-cancelled':
+      case 'popup-closed-by-user':
+      case 'cancelled-popup-request':
         return AppStrings.authErrorGoogleCancelled;
       case 'google-auth-tokens-null':
         return AppStrings.authErrorGoogleTokensNull;
+      case 'google-sign-in-failed':
+        return AppStrings.authErrorGoogleFailed;
+      case 'popup-blocked':
+        return AppStrings.authErrorPopupBlocked;
+      case 'unauthorized-domain':
+        return AppStrings.authErrorUnauthorizedDomain;
+      case 'operation-not-supported-in-this-environment':
+        return AppStrings.authErrorOperationNotSupported;
       default:
         return '${AppStrings.authErrorGeneric} (${error.code})';
     }
@@ -99,6 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isCompact = MediaQuery.sizeOf(context).width < 360;
+
     return Scaffold(
       backgroundColor: AppTheme.darkBackground,
       body: Theme(
@@ -106,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(isCompact ? 8 : 24),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 440),
                 child: Card(
@@ -117,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     side: const BorderSide(color: AppTheme.darkBorder),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(28),
+                    padding: EdgeInsets.all(isCompact ? 12 : 28),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -132,7 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             AppStrings.loginTitle,
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: AppTheme.primaryColor,
                                 ),
@@ -152,10 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelText: AppStrings.emailLabel,
                               prefixIcon: Icon(Icons.email_outlined),
                             ),
-                            validator: (value) =>
-                                value == null || !value.contains('@')
-                                    ? AppStrings.invalidEmail
-                                    : null,
+                            validator: AuthValidators.email,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -180,10 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            validator: (value) =>
-                                value == null || value.length < AppConstants.passwordMinLength
-                                    ? AppStrings.passwordTooShort
-                                    : null,
+                            validator: AuthValidators.password,
                           ),
                           const SizedBox(height: 24),
                           FilledButton(
@@ -212,26 +266,64 @@ class _LoginScreenState extends State<LoginScreen> {
                           OutlinedButton.icon(
                             onPressed: _isLoading ? null : _signInWithGoogle,
                             style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isCompact ? 8 : 16,
+                                vertical: 16,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                             icon: const Icon(Icons.g_mobiledata, size: 28),
-                            label: const Text(
-                              AppStrings.googleLoginButton,
-                              style: TextStyle(fontSize: 16),
+                            label: const FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                AppStrings.googleLoginButton,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          if (!kIsWeb) ...[
+                          const SizedBox(height: 12),
+                          OutlinedButton.icon(
+                            onPressed: _isLoading ? null : _signInWithBiometrics,
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isCompact ? 8 : 16,
+                                vertical: 16,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            icon: _isBiometricLoading
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppTheme.primaryColor,
+                                    ),
+                                  )
+                                : const Icon(Icons.fingerprint, size: 28, color: AppTheme.primaryColor),
+                            label: const FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'Entrar con huella/rostro',
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 12),
+                        ],
                           TextButton(
                             onPressed: _isLoading
                                 ? null
                                 : () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => const RegisterScreen(),
-                                      ),
+                                    MaterialPageRoute(
+                                      builder: (_) => const RegisterScreen(),
                                     ),
+                                  ),
                             child: const Text(AppStrings.registerLink),
                           ),
                         ],

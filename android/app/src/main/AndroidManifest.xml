@@ -2,6 +2,14 @@
     package="com.cov.app.v2">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <!-- La app puede instalarse en equipos sin cámara; la UI mostrará el error. -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     
     <application
         android:label="COV App"
@@ -35,6 +43,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.auth.api.signin.DEFAULT_WEB_CLIENT_ID"
+            android:value="55959964226-u11f6j7u72jqutfgnkm0fv17k6v6tj0g.apps.googleusercontent.com" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

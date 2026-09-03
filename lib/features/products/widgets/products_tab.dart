@@ -36,56 +36,105 @@ class ProductsTab extends StatelessWidget {
         }
 
         final outOfStock = products.where((p) => p.isOutOfStock).length;
-        final lowStock = products.where((p) => p.isLowStock && !p.isOutOfStock).length;
+        final lowStock = products
+            .where((p) => p.isLowStock && !p.isOutOfStock)
+            .length;
 
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _SummaryCard(
-                      label: 'Productos',
-                      value: '${products.length}',
-                      color: AppTheme.primaryColor,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isDesktop = constraints.maxWidth >= 760;
+            final horizontalPadding = isDesktop ? 28.0 : 16.0;
+
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1440),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        horizontalPadding,
+                        isDesktop ? 24 : 16,
+                        horizontalPadding,
+                        8,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _SummaryCard(
+                              label: 'Productos',
+                              value: '${products.length}',
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _SummaryCard(
+                              label: 'Stock bajo',
+                              value: '$lowStock',
+                              color: AppTheme.warningColor,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _SummaryCard(
+                              label: 'Sin stock',
+                              value: '$outOfStock',
+                              color: AppTheme.errorColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _SummaryCard(
-                      label: 'Stock bajo',
-                      value: '$lowStock',
-                      color: AppTheme.warningColor,
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () async {},
+                        child: isDesktop
+                            ? GridView.builder(
+                                padding: EdgeInsets.fromLTRB(
+                                  horizontalPadding,
+                                  12,
+                                  horizontalPadding,
+                                  100,
+                                ),
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 430,
+                                      mainAxisExtent: 154,
+                                      crossAxisSpacing: 16,
+                                      mainAxisSpacing: 16,
+                                    ),
+                                itemCount: products.length,
+                                itemBuilder: (_, index) => ProductCard(
+                                  product: products[index],
+                                  onEdit: onEdit,
+                                  onDelete: onDelete,
+                                ),
+                              )
+                            : ListView.separated(
+                                padding: EdgeInsets.fromLTRB(
+                                  horizontalPadding,
+                                  8,
+                                  horizontalPadding,
+                                  100,
+                                ),
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemCount: products.length,
+                                separatorBuilder: (_, _) =>
+                                    const SizedBox(height: 10),
+                                itemBuilder: (_, index) => ProductCard(
+                                  product: products[index],
+                                  onEdit: onEdit,
+                                  onDelete: onDelete,
+                                ),
+                              ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _SummaryCard(
-                      label: 'Sin stock',
-                      value: '$outOfStock',
-                      color: AppTheme.errorColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {},
-                child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
-                  itemCount: products.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 10),
-                  itemBuilder: (_, index) => ProductCard(
-                    product: products[index],
-                    onEdit: onEdit,
-                    onDelete: onDelete,
-                  ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -104,32 +153,32 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        margin: EdgeInsets.zero,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.darkSurface
-            : Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-          child: Column(
-            children: [
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 12),
-              ),
-            ],
+    margin: EdgeInsets.zero,
+    color: Theme.of(context).brightness == Brightness.dark
+        ? AppTheme.darkSurface
+        : Colors.white,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
-        ),
-      );
+          const SizedBox(height: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _EmptyCatalog extends StatelessWidget {
@@ -137,31 +186,31 @@ class _EmptyCatalog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.inventory_2_outlined,
-                size: 72,
-                color: AppTheme.primaryColor,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Aún no tienes productos.',
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Usa el botón "+" para registrar tu primer producto.',
-                textAlign: TextAlign.center,
-              ),
-            ],
+    child: Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.inventory_2_outlined,
+            size: 72,
+            color: AppTheme.primaryColor,
           ),
-        ),
-      );
+          const SizedBox(height: 16),
+          Text(
+            'Aún no tienes productos.',
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Usa el botón "+" para registrar tu primer producto.',
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _LoadError extends StatelessWidget {
@@ -170,17 +219,17 @@ class _LoadError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.cloud_off, size: 56),
-              const SizedBox(height: 16),
-              const Text('No pudimos cargar tus productos.'),
-              TextButton(onPressed: onRetry, child: const Text('Reintentar')),
-            ],
-          ),
-        ),
-      );
+    child: Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.cloud_off, size: 56),
+          const SizedBox(height: 16),
+          const Text('No pudimos cargar tus productos.'),
+          TextButton(onPressed: onRetry, child: const Text('Reintentar')),
+        ],
+      ),
+    ),
+  );
 }
